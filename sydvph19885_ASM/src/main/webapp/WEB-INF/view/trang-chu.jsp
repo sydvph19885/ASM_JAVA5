@@ -25,7 +25,7 @@
     <br>
     <div style="text-align: center;font-weight: bold;font-size: 40px;color: #ffffff">XIN CHÀO</div>
     <br>
-    <form method="get" action="/search">
+    <form method="get" action="/search?trangSo=${trangHienTai+1}">
         <div class="input-group flex-nowrap container">
             <input type="text" class="form-control" placeholder="Tìm kiếm" name="tenSearch" aria-label="Username"
                    aria-describedby="addon-wrapping">

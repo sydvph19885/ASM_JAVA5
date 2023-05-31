@@ -354,14 +354,22 @@ public class TrangChuController {
     }
 
     @GetMapping("/search")
-    public String findAllChiTSPBySanPham_Name(Model model, @RequestParam(name = "tenSearch") String tenSearch, @RequestParam("pageNumber") Optional<Integer> pageNumber) {
+    public String findAllChiTSPBySanPham_Name(Model model,@RequestParam(name = "trangSo") Optional<Integer> trangSo, @RequestParam(name = "tenSearch") String tenSearch, @RequestParam("pageNumber") Optional<Integer> pageNumber) {
         try {
             if (!tenSearch.isEmpty() || tenSearch != null) {
-                List<ChiTietSP> chiTietSPListNameSanPham = chiTietSanPhamService.findAllBySanPham_Ten(tenSearch);
+                Pageable pageable = PageRequest.of( trangSo.orElse(0),8);
+                Page<ChiTietSP> chiTietSPListNameSanPham = chiTietSanPhamService.findAllBySanPham_Ten(tenSearch,pageable);
                 Map<String, Integer> danhSachGioHang = gioHangService.getAllGioHang();
                 int soLuongThem = 0;
                 int soLuongSanPhamTrongGioHang = getSoLuongSanPhamTrongGioHang(soLuongThem);
-                model.addAttribute("sanPham", chiTietSPListNameSanPham);
+                model.addAttribute("sanPham", chiTietSPListNameSanPham.getContent());
+                model.addAttribute("tongSoTrangCo", chiTietSPListNameSanPham.getTotalPages());
+                model.addAttribute("trangHienTai", chiTietSPListNameSanPham.getNumber() );
+                List<Integer> phanTrangSo = new ArrayList<>();
+                for (int i = 0; i < chiTietSPListNameSanPham.getTotalPages(); i++) {
+                    phanTrangSo.add(i);
+                }
+                model.addAttribute("soTrang", phanTrangSo);
                 model.addAttribute("soLuong", soLuongSanPhamTrongGioHang);
                 model.addAttribute("gioHang", danhSachGioHang);
                 model.addAttribute("giaMin", Integer.valueOf((int) chiTietSanPhamService.findByOrderByGiaBanAsc().get(0).getGiaBan()));
@@ -385,12 +393,21 @@ public class TrangChuController {
 //    }
 
     @GetMapping("/search-between-price")
-    public String timTheoKhoangGia(Model model, @RequestParam(name = "selectedPriceMin") Integer giaMin, @RequestParam(name = "selectedPriceMax") Integer giaMax) {
+    public String timTheoKhoangGia(Model model, @RequestParam(name = "trangSo") Optional<Integer> trangSo,@RequestParam(name = "selectedPriceMin") Integer giaMin, @RequestParam(name = "selectedPriceMax") Integer giaMax) {
         try {
             int soLuongThem = 0;
             int soLuongSanPhamTrongGioHang = getSoLuongSanPhamTrongGioHang(soLuongThem);
             Map<String, Integer> danhSachGioHang = gioHangService.getAllGioHang();
-            model.addAttribute("sanPham", chiTietSanPhamService.findByGiaBanBetween(giaMin, giaMax));
+            Pageable pageable = PageRequest.of(trangSo.orElse(0),8);
+            Page<ChiTietSP> chiTietSPPageByPriceBetween = chiTietSanPhamService.findByGiaBanBetween(giaMin, giaMax,pageable);
+            model.addAttribute("sanPham", chiTietSPPageByPriceBetween.getContent());
+            model.addAttribute("tongSoTrangCo", chiTietSPPageByPriceBetween.getTotalPages());
+            model.addAttribute("trangHienTai", chiTietSPPageByPriceBetween.getNumber() );
+            List<Integer> phanTrangSo = new ArrayList<>();
+            for (int i = 0; i < chiTietSPPageByPriceBetween.getTotalPages(); i++) {
+                phanTrangSo.add(i);
+            }
+            model.addAttribute("soTrang", phanTrangSo);
             model.addAttribute("soLuong", soLuongSanPhamTrongGioHang);
             model.addAttribute("gioHang", danhSachGioHang);
             model.addAttribute("giaMin", Integer.valueOf((int) chiTietSanPhamService.findByOrderByGiaBanAsc().get(0).getGiaBan()));

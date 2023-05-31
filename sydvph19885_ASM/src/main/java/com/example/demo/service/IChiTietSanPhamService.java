@@ -16,13 +16,13 @@ public interface IChiTietSanPhamService {
 
     String delete(ChiTietSP chiTietSP);
 
-    List<ChiTietSP> findAllBySanPham_Ten(String ten);
+    Page<ChiTietSP> findAllBySanPham_Ten(String ten,Pageable pageable);
 
     List<ChiTietSP> findByOrderByGiaBanAsc();
 
     List<ChiTietSP> findByOrderByGiaBanDesc();
 
-    List<ChiTietSP> findByGiaBanBetween(int giaMin, int giaMax);
+    Page<ChiTietSP> findByGiaBanBetween(int giaMin, int giaMax,Pageable pageable);
 
     Page<ChiTietSP> phanTrangChiTietSP(Pageable pageable);
 
