@@ -49,6 +49,7 @@
                                         placeholder="Last name"
                                         name="ho"
                                         value="${lastName}"
+                                        required
                                 />
                             </div>
                             <div class="col-md-6">
@@ -58,6 +59,7 @@
                                         name="ten"
                                         placeholder="First name"
                                         value="${firstName}"
+                                        required
                                 />
                             </div>
                         </div>
@@ -69,6 +71,7 @@
                                         placeholder="Email"
                                         name="email"
                                         value="${sessionScope.account.email}"
+                                        required
                                 />
                             </div>
                             <br>
@@ -80,6 +83,7 @@
                                         placeholder="Number phone"
                                         name="sdt"
                                         value="${sessionScope.account.sdt}"
+                                        required
                                 />
                             </div>
                             <br>
@@ -90,6 +94,7 @@
                                         class="form-control"
                                         placeholder="Image"
                                         name="image"
+                                        required
                                 />
                             </div>
                         </div>

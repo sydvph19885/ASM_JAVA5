@@ -5,6 +5,7 @@ import com.example.demo.service.*;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ResourceLoader;
@@ -18,10 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 
 @Controller
@@ -56,6 +54,12 @@ public class ManageProduct {
     ResourceLoader resourceLoader;
 
     @Autowired
+    HttpSession session;
+
+    @Autowired
+    IGioHangService gioHangService;
+
+    @Autowired
     private IGioHangChiTietService gioHangChiTietService;
 
     @Autowired
@@ -64,6 +68,23 @@ public class ManageProduct {
     private ChiTietSP chiTietSPUpdate = null;
 
     private List<HoaDonChiTiet> listHoaDonChiTietByIdCtsp = new ArrayList<>();
+
+    public void viewCart(Model model) {
+        Account account = (Account) session.getAttribute("account");
+        int soLuongSanPhamTrongGioHang = 0;
+        double tongTienHang = 0;
+        GioHang gioHang = gioHangService.findGioHangByAccount(account);
+        List<GioHangChiTiet> listGioHang = gioHangChiTietService.findGioHangChiTietByGioHang(gioHang);
+        for (GioHangChiTiet gioHangChiTiet : listGioHang) {
+            tongTienHang += gioHangChiTiet.getDonGia().doubleValue();
+            soLuongSanPhamTrongGioHang += gioHangChiTiet.getSoLuong();
+        }
+        model.addAttribute("tongTienHang", tongTienHang);
+        model.addAttribute("vat", tongTienHang + ((tongTienHang * 10) / 100));
+        model.addAttribute("gioHang", listGioHang);
+        model.addAttribute("soLuong", soLuongSanPhamTrongGioHang);
+        model.addAttribute("account", account);
+    }
 
     @GetMapping
     public String viewManage(Model model, Optional<Integer> trangSo) {
@@ -82,6 +103,7 @@ public class ManageProduct {
         }
         model.addAttribute("soTrang", phanTrangSo);
 //
+        viewCart(model);
         return "manage-product";
     }
 
@@ -100,6 +122,7 @@ public class ManageProduct {
         NhaSanXuat nhaSanXuat = new NhaSanXuat(genMa(), ten);
         nhaSanXuatService.add(nhaSanXuat);
         viewManage(model, Optional.of(trangSo.orElse(0)));
+        viewCart(model);
         return "redirect:/manage-product";
     }
 
@@ -108,6 +131,7 @@ public class ManageProduct {
         MauSac mauSac = new MauSac(genMa(), ten);
         mauSacService.addOrUpdate(mauSac);
         viewManage(model, Optional.of(trangSo.orElse(0)));
+        viewCart(model);
         return "redirect:/manage-product";
     }
 
@@ -138,10 +162,11 @@ public class ManageProduct {
         DongSP dongSPAdd = new DongSP(UUID.randomUUID().toString(), "Giày leo núi");
         dongSanPhamService.add(dongSPAdd);
         ChiTietSP chiTietSP = null;
+        Date date = new Date();
         if (chiTietSPUpdate == null) {
-            chiTietSP = new ChiTietSP(sanXuat, mauSacAdd, sanPhamAddName, dongSPAdd, namBH, moTa, anh, soLuong, giaNhap, giaBan, size);
+            chiTietSP = new ChiTietSP(sanXuat, mauSacAdd, sanPhamAddName, dongSPAdd, namBH, moTa, anh, soLuong, giaNhap, giaBan, size, new java.sql.Date(date.getTime()));
         } else {
-            chiTietSP = new ChiTietSP(chiTietSPUpdate.getId(), sanXuat, mauSacAdd, sanPhamAddName, dongSPAdd, namBH, moTa, anh, soLuong, giaNhap, giaBan, size);
+            chiTietSP = new ChiTietSP(chiTietSPUpdate.getId(), sanXuat, mauSacAdd, sanPhamAddName, dongSPAdd, namBH, moTa, anh, soLuong, giaNhap, giaBan, size, new java.sql.Date(date.getTime()));
         }
 //        nếu so luong ,gia ban , gia nhap < 0
         if (namBH < 0) {
@@ -158,11 +183,13 @@ public class ManageProduct {
             model.addAttribute("ctsp", chiTietSP);
             model.addAttribute("giaBanss", "Phải lớn hơn 0");
             viewManage(model, Optional.of(trangSo.orElse(0)));
+            viewCart(model);
             return "manage-product";
         } else if (giaNhap < 0) {
             model.addAttribute("ctsp", chiTietSP);
             model.addAttribute("giaNhapss", "Phải lớn hơn 0");
             viewManage(model, Optional.of(trangSo.orElse(0)));
+            viewCart(model);
             return "manage-product";
         } else {
             int viTriDauCham = anh.indexOf(".");
@@ -193,11 +220,13 @@ public class ManageProduct {
                 ChiTietSP sp = chiTietSanPhamService.add(chiTietSP);
                 chiTietSPUpdate = null;
                 viewManage(model, Optional.of(trangSo.orElse(0)));
+                viewCart(model);
                 return "redirect:/manage-product";
             } else {
                 model.addAttribute("thongBaoImg", "Vui lòng chọn ảnh không chọn cái khác!");
                 model.addAttribute("ctsp", chiTietSP);
                 viewManage(model, Optional.of(trangSo.orElse(0)));
+                viewCart(model);
                 return "manage-product";
             }
         }

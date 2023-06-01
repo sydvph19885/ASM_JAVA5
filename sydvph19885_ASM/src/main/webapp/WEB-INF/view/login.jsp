@@ -22,7 +22,13 @@
             <form action="/register" method="post" enctype="multipart/form-data">
                 <h1>Create Account</h1>
                 <br>
-                <input type="text" value="${account.hoTen}" name="hoTenDK" required placeholder="Name"/>
+                <div class="row">
+                    <div class="col-6"><input type="text" value="${ho}" name="hoDK" required
+                                              placeholder="Last Name"/></div>
+                    <div class="col-6"><input type="text" value="${ten}" name="hoTenDK" required
+                                              placeholder="First Name"/></div>
+                </div>
+
                 <input type="email" value="${account.email}" name="emailDK" required
                        placeholder="Email"/>
                 <input type="password" value="${account.matKhau}" name="passDK" required
@@ -40,9 +46,9 @@
                     <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
                     <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                 </div>
-<%--                <span style="color: red">${thongBaoThanhCong}</span>--%>
-<%--                <span style="color: red">${thongBao}</span>--%>
-                <input type="email" required  name="email" value="${emails}" placeholder="Email"/>
+                <%--                <span style="color: red">${thongBaoThanhCong}</span>--%>
+                <%--                <span style="color: red">${thongBao}</span>--%>
+                <input type="email" required name="email" value="${emails}" placeholder="Email"/>
                 <input type="password" required name="pass" value="${passs}" placeholder="Password"/>
                 <a href="/forgot-pass">Forgot your password?</a>
                 <button type="submit">Login</button>

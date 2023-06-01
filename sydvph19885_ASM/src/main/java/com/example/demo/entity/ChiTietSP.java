@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -51,7 +52,7 @@ public class ChiTietSP {
     private int namBH;
     @Column(name = "mo_ta", columnDefinition = "NVARCHAR(MAX)")
     private String moTa;
-    @Column(name = "Img",columnDefinition = "NVARCHAR(MAX)")
+    @Column(name = "Img", columnDefinition = "NVARCHAR(MAX)")
     private String image;
     @Column(name = "so_luong_ton")
     private int soLuongTon;
@@ -61,9 +62,24 @@ public class ChiTietSP {
     private float giaBan;
     @Column(name = "size")
     private int size;
+    private Date ngayNhap;
 
 
-    public ChiTietSP(NhaSanXuat nhaSanXuat, MauSac mauSac, SanPham sanPham, DongSP dongSanPham, int namBH, String moTa, String image, int soLuongTon, float giaNhap, float giaBan, int size) {
+//    public ChiTietSP(NhaSanXuat nhaSanXuat, MauSac mauSac, SanPham sanPham, DongSP dongSanPham, int namBH, String moTa, String image, int soLuongTon, float giaNhap, float giaBan, int size) {
+//        this.nhaSanXuat = nhaSanXuat;
+//        this.mauSac = mauSac;
+//        this.sanPham = sanPham;
+//        this.dongSanPham = dongSanPham;
+//        this.namBH = namBH;
+//        this.moTa = moTa;
+//        this.image = image;
+//        this.soLuongTon = soLuongTon;
+//        this.giaNhap = giaNhap;
+//        this.giaBan = giaBan;
+//        this.size = size;
+//    }
+
+    public ChiTietSP(NhaSanXuat nhaSanXuat, MauSac mauSac, SanPham sanPham, DongSP dongSanPham, int namBH, String moTa, String image, int soLuongTon, float giaNhap, float giaBan, int size, Date ngayNhap) {
         this.nhaSanXuat = nhaSanXuat;
         this.mauSac = mauSac;
         this.sanPham = sanPham;
@@ -75,5 +91,6 @@ public class ChiTietSP {
         this.giaNhap = giaNhap;
         this.giaBan = giaBan;
         this.size = size;
+        this.ngayNhap = ngayNhap;
     }
 }

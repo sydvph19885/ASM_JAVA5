@@ -74,15 +74,15 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public String register(Model model, HttpServletRequest request, @RequestParam(name = "hoTenDK") String hoTen, @RequestParam(name = "emailDK") String email, @RequestParam(name = "passDK") String pass, @RequestParam(name = "image") MultipartFile file) throws IOException {
+    public String register(Model model, HttpServletRequest request, @RequestParam(name = "hoTenDK") String hoTen, @RequestParam(name = "hoDK") String hoDK, @RequestParam(name = "emailDK") String email, @RequestParam(name = "passDK") String pass, @RequestParam(name = "image") MultipartFile file) throws IOException {
         String anh = file.getOriginalFilename();
-        Account account = new Account(email, hoTen, genMa(), anh, pass, "CLIENT");
+        Account account = new Account(email, hoDK + " " + hoTen, genMa(), anh, pass, "CLIENT");
         Account accountByEmail = accountService.findAccountByEmail(email);
         int viTriDauCham = anh.indexOf(".");
         String duoiImage = anh.substring(viTriDauCham + 1).trim();
         if (accountByEmail == null) {
             if (duoiImage.equalsIgnoreCase("jpeg") || duoiImage.equalsIgnoreCase("png") || duoiImage.equalsIgnoreCase("svg") || duoiImage.equalsIgnoreCase("jpg") || duoiImage.equalsIgnoreCase("tiff") || duoiImage.equalsIgnoreCase("heic")) {
-                if (!file.isEmpty()){
+                if (!file.isEmpty()) {
                     // Lấy tên file gốc
                     String originalFileName = file.getOriginalFilename();
                     // Lấy đường dẫn thư mục static
@@ -99,7 +99,7 @@ public class LoginController {
                         try (OutputStream outputStream = new FileOutputStream(file12)) {
                             FileCopyUtils.copy(inputStream, outputStream);
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -109,6 +109,8 @@ public class LoginController {
             } else {
                 model.addAttribute("thongBao", "Vui lòng không chọn những cái không phải là ảnh! Đăng kí thất bại");
                 model.addAttribute("account", account);
+                model.addAttribute("ho", hoDK);
+                model.addAttribute("ten", hoTen);
                 return "login";
             }
         } else {

@@ -15,8 +15,7 @@
           integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/dist/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.css">
-    <style>
-    </style>
+
 </head>
 <body>
 <jsp:include page="layout/header.jsp"></jsp:include>
@@ -159,7 +158,7 @@
 </main>
 <br>
 <jsp:include page="layout/footer.jsp"></jsp:include>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.js"></script>
+
 <script>
     // Khởi tạo thanh range slider
     var priceRange = document.getElementById('priceRange');

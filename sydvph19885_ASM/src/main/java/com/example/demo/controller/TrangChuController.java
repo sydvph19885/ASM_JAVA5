@@ -72,27 +72,27 @@ public class TrangChuController {
         Account account = (Account) session.getAttribute("account");
         int soLuongThem = 0;
         int soLuongSanPhamTrongGioHang = getSoLuongSanPhamTrongGioHang(soLuongThem);
-        if(account == null){
+        if (account == null) {
             Map<String, Integer> danhSachGioHang = gioHangService.getAllGioHang();
             Map<String, Integer> gioHangMap = gioHangService.getAllGioHang();
             Set<String> key = gioHangMap.keySet();
-            Map<ChiTietSP,Integer> danhSachGH = new HashMap<>();
+            Map<ChiTietSP, Integer> danhSachGH = new HashMap<>();
             int soLuongSPUser = 0;
-            for (String keySP: key) {
+            for (String keySP : key) {
                 Integer value = gioHangMap.get(keySP);
                 ChiTietSP chiTietSP = chiTietSanPhamService.findAllById(keySP);
-                danhSachGH.put(chiTietSP,value);
+                danhSachGH.put(chiTietSP, value);
                 soLuongSPUser += value;
             }
             model.addAttribute("soLuong", soLuongSPUser);
-        }else {
+        } else {
             model.addAttribute("soLuong", soLuongSanPhamTrongGioHang);
         }
 
         List<Integer> phanTrangSo = new ArrayList<>();
         model.addAttribute("sanPham", phanTrangSP(pageNumber).getContent());
         model.addAttribute("tongSoTrangCo", phanTrangSP(pageNumber).getTotalPages());
-        model.addAttribute("trangHienTai", phanTrangSP(pageNumber).getNumber() );
+        model.addAttribute("trangHienTai", phanTrangSP(pageNumber).getNumber());
         for (int i = 0; i < phanTrangSP(pageNumber).getTotalPages(); i++) {
             phanTrangSo.add(i);
         }
@@ -104,7 +104,7 @@ public class TrangChuController {
     }
 
     @GetMapping("/home/{numBerPage}")
-    public String page(Model model, @PathVariable(name = "numBerPage") Optional<Integer> trangSo ) {
+    public String page(Model model, @PathVariable(name = "numBerPage") Optional<Integer> trangSo) {
         viewTrangChu(model, Optional.of(trangSo.get() - 1));
         return "trang-chu";
     }
@@ -122,9 +122,11 @@ public class TrangChuController {
         session.setAttribute("confirmPass", confirmPass);
         if (!account.getMatKhau().equals(currentPass)) {
             model.addAttribute("thongBao", "Mật khẩu cũ không đúng!");
+            viewCart(model);
             return "change-pass";
         } else if (!confirmPass.equals(newPass)) {
             model.addAttribute("thongBao", "Vui lòng xác nhận lại mật khẩu!");
+            viewCart(model);
             return "change-pass";
         } else {
             try {
@@ -158,14 +160,14 @@ public class TrangChuController {
             if (account == null) {
                 Map<String, Integer> gioHangMap = gioHangService.getAllGioHang();
                 Set<String> key = gioHangMap.keySet();
-                Map<ChiTietSP,Integer> danhSachGH = new HashMap<>();
-                int tongTienHang  = 0;
+                Map<ChiTietSP, Integer> danhSachGH = new HashMap<>();
+                int tongTienHang = 0;
                 int soLuongSanPhamTrongGioHang = 0;
-                for (String keySP: key) {
+                for (String keySP : key) {
                     Integer value = gioHangMap.get(keySP);
                     ChiTietSP chiTietSP = chiTietSanPhamService.findAllById(keySP);
-                    danhSachGH.put(chiTietSP,value);
-                    tongTienHang += chiTietSP.getGiaBan()* value;
+                    danhSachGH.put(chiTietSP, value);
+                    tongTienHang += chiTietSP.getGiaBan() * value;
                     soLuongSanPhamTrongGioHang += value;
                 }
                 model.addAttribute("gioHang", danhSachGH);
@@ -247,7 +249,7 @@ public class TrangChuController {
     }
 
     @GetMapping("/cart/buy-now/{idProductCat}")
-    public String buyNow(Model model, @PathVariable(name = "idProductCat") String idSP,Optional<Integer> page) {
+    public String buyNow(Model model, @PathVariable(name = "idProductCat") String idSP, Optional<Integer> page) {
         try {
             Account account = (Account) session.getAttribute("account");
             GioHang gioHang = gioHangService.findGioHangByAccount(account);
@@ -255,7 +257,7 @@ public class TrangChuController {
 //        nếu số lượng tồn của sản phẩm hết
             if (chiTietSP.getSoLuongTon() <= 0) {
                 model.addAttribute("soLuongTon", "Sản phẩm này đã hết hàng! Vui lòng chọn sản phẩm khác!");
-                viewTrangChu(model,Optional.of(page.orElse(0)));
+                viewTrangChu(model, Optional.of(page.orElse(0)));
                 return "trang-chu";
             } else {
                 //        nếu không có tài khoản đăng nhập
@@ -263,10 +265,10 @@ public class TrangChuController {
                     Map<String, Integer> gioHangMap = gioHangService.getAllGioHang();
                     Set<String> key = gioHangMap.keySet();
                     gioHangService.addGioHangUser(idSP, 1);
-                    Map<ChiTietSP,Integer> danhSachGH = new HashMap<>();
-                    for (String keySP: key) {
+                    Map<ChiTietSP, Integer> danhSachGH = new HashMap<>();
+                    for (String keySP : key) {
                         Integer value = gioHangMap.get(keySP);
-                        danhSachGH.put(chiTietSanPhamService.findAllById(keySP),value);
+                        danhSachGH.put(chiTietSanPhamService.findAllById(keySP), value);
                     }
                     model.addAttribute("gioHang", danhSachGH);
                 } else {
@@ -300,7 +302,7 @@ public class TrangChuController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            viewTrangChu(model,Optional.of(page.orElse(0)));
+            viewTrangChu(model, Optional.of(page.orElse(0)));
             return "trang-chu";
         }
 
@@ -313,6 +315,7 @@ public class TrangChuController {
         model.addAttribute("lastName", account.getHoTen().substring(0, account.getHoTen().indexOf(" ")));
         model.addAttribute("firstName", account.getHoTen().substring(account.getHoTen().indexOf(" ") + 1));
         model.addAttribute("account", account);
+        viewCart(model);
         return "profile";
     }
 
@@ -350,21 +353,22 @@ public class TrangChuController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        viewCart(model);
         return "profile";
     }
 
     @GetMapping("/search")
-    public String findAllChiTSPBySanPham_Name(Model model,@RequestParam(name = "trangSo") Optional<Integer> trangSo, @RequestParam(name = "tenSearch") String tenSearch, @RequestParam("pageNumber") Optional<Integer> pageNumber) {
+    public String findAllChiTSPBySanPham_Name(Model model, @RequestParam(name = "trangSo") Optional<Integer> trangSo, @RequestParam(name = "tenSearch") String tenSearch, @RequestParam("pageNumber") Optional<Integer> pageNumber) {
         try {
             if (!tenSearch.isEmpty() || tenSearch != null) {
-                Pageable pageable = PageRequest.of( trangSo.orElse(0),8);
-                Page<ChiTietSP> chiTietSPListNameSanPham = chiTietSanPhamService.findAllBySanPham_Ten(tenSearch,pageable);
+                Pageable pageable = PageRequest.of(trangSo.orElse(0), 8);
+                Page<ChiTietSP> chiTietSPListNameSanPham = chiTietSanPhamService.findAllBySanPham_Ten(tenSearch, pageable);
                 Map<String, Integer> danhSachGioHang = gioHangService.getAllGioHang();
                 int soLuongThem = 0;
                 int soLuongSanPhamTrongGioHang = getSoLuongSanPhamTrongGioHang(soLuongThem);
                 model.addAttribute("sanPham", chiTietSPListNameSanPham.getContent());
                 model.addAttribute("tongSoTrangCo", chiTietSPListNameSanPham.getTotalPages());
-                model.addAttribute("trangHienTai", chiTietSPListNameSanPham.getNumber() );
+                model.addAttribute("trangHienTai", chiTietSPListNameSanPham.getNumber());
                 List<Integer> phanTrangSo = new ArrayList<>();
                 for (int i = 0; i < chiTietSPListNameSanPham.getTotalPages(); i++) {
                     phanTrangSo.add(i);
@@ -393,16 +397,16 @@ public class TrangChuController {
 //    }
 
     @GetMapping("/search-between-price")
-    public String timTheoKhoangGia(Model model, @RequestParam(name = "trangSo") Optional<Integer> trangSo,@RequestParam(name = "selectedPriceMin") Integer giaMin, @RequestParam(name = "selectedPriceMax") Integer giaMax) {
+    public String timTheoKhoangGia(Model model, @RequestParam(name = "trangSo") Optional<Integer> trangSo, @RequestParam(name = "selectedPriceMin") Integer giaMin, @RequestParam(name = "selectedPriceMax") Integer giaMax) {
         try {
             int soLuongThem = 0;
             int soLuongSanPhamTrongGioHang = getSoLuongSanPhamTrongGioHang(soLuongThem);
             Map<String, Integer> danhSachGioHang = gioHangService.getAllGioHang();
-            Pageable pageable = PageRequest.of(trangSo.orElse(0),8);
-            Page<ChiTietSP> chiTietSPPageByPriceBetween = chiTietSanPhamService.findByGiaBanBetween(giaMin, giaMax,pageable);
+            Pageable pageable = PageRequest.of(trangSo.orElse(0), 8);
+            Page<ChiTietSP> chiTietSPPageByPriceBetween = chiTietSanPhamService.findByGiaBanBetween(giaMin, giaMax, pageable);
             model.addAttribute("sanPham", chiTietSPPageByPriceBetween.getContent());
             model.addAttribute("tongSoTrangCo", chiTietSPPageByPriceBetween.getTotalPages());
-            model.addAttribute("trangHienTai", chiTietSPPageByPriceBetween.getNumber() );
+            model.addAttribute("trangHienTai", chiTietSPPageByPriceBetween.getNumber());
             List<Integer> phanTrangSo = new ArrayList<>();
             for (int i = 0; i < chiTietSPPageByPriceBetween.getTotalPages(); i++) {
                 phanTrangSo.add(i);
@@ -420,8 +424,14 @@ public class TrangChuController {
     }
 
     @GetMapping("/contact")
-    public String viewContact() {
+    public String viewContact(Model model) {
+        viewCart(model);
         return "contact";
+    }
+
+    @GetMapping("/drop")
+    public String demo(Model model) {
+        return "dropDown";
     }
 
 

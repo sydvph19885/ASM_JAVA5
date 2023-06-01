@@ -36,6 +36,23 @@ public class HoaDonController {
     @Autowired
     private IChiTietSanPhamService chiTietSanPhamService;
 
+    public void viewCart(Model model) {
+        Account account = (Account) session.getAttribute("account");
+        int soLuongSanPhamTrongGioHang = 0;
+        double tongTienHang = 0;
+        GioHang gioHang = gioHangService.findGioHangByAccount(account);
+        List<GioHangChiTiet> listGioHang = gioHangChiTietService.findGioHangChiTietByGioHang(gioHang);
+        for (GioHangChiTiet gioHangChiTiet : listGioHang) {
+            tongTienHang += gioHangChiTiet.getDonGia().doubleValue();
+            soLuongSanPhamTrongGioHang += gioHangChiTiet.getSoLuong();
+        }
+        model.addAttribute("tongTienHang", tongTienHang);
+        model.addAttribute("vat", tongTienHang + ((tongTienHang * 10) / 100));
+        model.addAttribute("gioHang", listGioHang);
+        model.addAttribute("soLuong", soLuongSanPhamTrongGioHang);
+        model.addAttribute("account", account);
+    }
+
     @GetMapping
     public String viewThongTin(Model model) {
         try {
@@ -45,9 +62,10 @@ public class HoaDonController {
             } else {
                 GioHang gioHang = gioHangService.findGioHangByAccount(account);
                 List<GioHangChiTiet> gioHangChiTietList = gioHangChiTietService.findGioHangChiTietByGioHang(gioHang);
-//                gio hang khong co san pham nao
+//                check gio hang khong co san pham nao
                 if (gioHangChiTietList.size() == 0) {
                     model.addAttribute("thongBaoSanPhamHetSoLuongTon", "Vui lòng thêm sản phẩm để mua!");
+                    viewCart(model);
                     return "cart";
                 } else {
                     List<ChiTietSP> chiTietSPList = chiTietSanPhamService.findAll();
@@ -72,6 +90,7 @@ public class HoaDonController {
                                     model.addAttribute("account", account);
                                     model.addAttribute("thongBaoSanPhamHetSoLuongTon", "Sản phẩm" + " " + chiTietSP.getSanPham().getTen() + " " + "đã hết hàng! Vui lòng xóa!");
 //                          view cart
+                                    viewCart(model);
                                     return "cart";
                                 }
                             }
@@ -99,6 +118,7 @@ public class HoaDonController {
                                     model.addAttribute("thongBaoSanPhamHetSoLuongTon", "Sản phẩm" + " " + chiTietSP.getSanPham().getTen() + " " + "số lượng trong kho chỉ còn" + " " + chiTietSP.getSoLuongTon());
 //                          view cart
 //                            return "redirect:/cart";
+                                    viewCart(model);
                                     return "cart";
                                 } else {
 
