@@ -62,24 +62,13 @@ public class ChiTietSP {
     private float giaBan;
     @Column(name = "size")
     private int size;
+    @Column(name = "ngay_nhap")
     private Date ngayNhap;
+    @Column(name = "voucher")
+    private int voucher;
 
 
-//    public ChiTietSP(NhaSanXuat nhaSanXuat, MauSac mauSac, SanPham sanPham, DongSP dongSanPham, int namBH, String moTa, String image, int soLuongTon, float giaNhap, float giaBan, int size) {
-//        this.nhaSanXuat = nhaSanXuat;
-//        this.mauSac = mauSac;
-//        this.sanPham = sanPham;
-//        this.dongSanPham = dongSanPham;
-//        this.namBH = namBH;
-//        this.moTa = moTa;
-//        this.image = image;
-//        this.soLuongTon = soLuongTon;
-//        this.giaNhap = giaNhap;
-//        this.giaBan = giaBan;
-//        this.size = size;
-//    }
-
-    public ChiTietSP(NhaSanXuat nhaSanXuat, MauSac mauSac, SanPham sanPham, DongSP dongSanPham, int namBH, String moTa, String image, int soLuongTon, float giaNhap, float giaBan, int size, Date ngayNhap) {
+    public ChiTietSP(NhaSanXuat nhaSanXuat, MauSac mauSac, SanPham sanPham, DongSP dongSanPham, int namBH, String moTa, String image, int soLuongTon, float giaNhap, float giaBan, int size, Date ngayNhap, int voucher) {
         this.nhaSanXuat = nhaSanXuat;
         this.mauSac = mauSac;
         this.sanPham = sanPham;
@@ -92,5 +81,6 @@ public class ChiTietSP {
         this.giaBan = giaBan;
         this.size = size;
         this.ngayNhap = ngayNhap;
+        this.voucher = voucher;
     }
 }

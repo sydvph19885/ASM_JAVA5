@@ -121,7 +121,14 @@
                     <option value="43">43</option>
                 </select>
                 <br>
-                <br>
+                <div class="input-group flex-nowrap">
+                    <span class="input-group-text" id="addon-wrapping">Voucher</span>
+                    <input type="number" class="form-control" value="${ctsp.voucher}" required
+                           placeholder="voucher %"
+                           name="voucher"
+                           aria-describedby="addon-wrapping">
+                    <span class="input-group-text" id="addon-wrapping">%</span>
+                </div>
                 <p style="color: red;text-align: center">${thongBaoImg}</p>
             </div>
             <div class="col-6">
@@ -245,7 +252,7 @@
     <c:choose>
         <c:when test="${chiTietSp.size()==0}"><h1>Bạn chưa có sản phẩm nào!</h1></c:when>
         <c:otherwise>
-            <table class="table">
+            <table class="table table-header table-bordered">
                 <thead>
                 <tr>
                     <th scope="col">Sản phẩm</th>
@@ -256,6 +263,7 @@
                     <th scope="col">Image</th>
                     <th scope="col">Giá nhập</th>
                     <th scope="col">Giá bán</th>
+                    <th scope="col">Voucher(%)</th>
                     <th scope="col">Số lượng tồn</th>
                     <th scope="col">Mô tả</th>
                     <th scope="col">Acction</th>
@@ -272,12 +280,14 @@
                         <td>${sp.image}</td>
                         <td><fmt:formatNumber value="${sp.giaNhap}" pattern="###,###"></fmt:formatNumber></td>
                         <td><fmt:formatNumber value="${sp.giaBan}" pattern="###,###"></fmt:formatNumber></td>
+                        <td>${sp.voucher}</td>
                         <td>${sp.soLuongTon}</td>
                         <td>${sp.moTa}</td>
                         <td>
                             <a href="/manage-product/detail/${sp.id}" class="btn"><i class="fa fa-eye"
                                                                                      aria-hidden="true"></i></a>
-                            <a type="button" href="/manage-product/delete/${sp.id}" onclick="return confirm('BẠN CÓ CHẮC CHẮN THỰC HIỆN THAO TÁC!')" class="btn"><i
+                            <a type="button" href="/manage-product/delete/${sp.id}"
+                               onclick="return confirm('BẠN CÓ CHẮC CHẮN THỰC HIỆN THAO TÁC!')" class="btn"><i
                                     class="fa fa-trash"
                                     aria-hidden="true"></i>
                             </a>

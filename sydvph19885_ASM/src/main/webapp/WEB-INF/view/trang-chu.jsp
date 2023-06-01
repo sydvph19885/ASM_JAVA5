@@ -15,7 +15,8 @@
           integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/dist/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.css">
-
+    <style>
+    </style>
 </head>
 <body>
 <jsp:include page="layout/header.jsp"></jsp:include>
@@ -76,15 +77,51 @@
             <c:forEach items="${sanPham}" var="sp">
                 <div class="col-md-3 col-sm-6 col-12">
                     <div class="card card-pro mb-2" style="width: 269px">
-                        <a href="/detail/${sp.id}">
-                            <img style="width: 269px;height: 300px;border-radius: 5px"
-                                <%--                                 src="http://localhost:8081/image/123.jpg" alt="..."></a>--%>
-                                 src="../../static/${sp.image}" alt="..."></a>
-                        <div class="card-body">
-                            <a href="/detail/${sp.id}" style="text-decoration: none"><h5 style="; color: black"
-                                                                                         class="card-title">${sp.sanPham.ten}</h5>
-                            </a>
-                            <p><fmt:formatNumber value="${sp.giaBan}" pattern="###,###"></fmt:formatNumber>VND</p>
+
+                            <c:choose>
+                                <c:when test="${sp.voucher != 0}">
+                                <a href="/detail/${sp.id}" style="position: relative; display: inline-block;">
+                                    <div style="position: relative; display: inline-block;">
+                                        <img style="width: 269px; height: 300px; border-radius: 5px;" src="../../static/${sp.image}" alt="...">
+                                        <div class="position-absolute top-0 start-0 translate-middle p-2 bg-danger text-white" style="border-radius: 5px 0 0 5px;margin-left: 23px;margin-top: 20px">
+                                            ${sp.voucher}%
+                                        </div>
+                                    </div>
+                                </a>
+
+
+                                <div class="card-body">
+                                    <a href="/detail/${sp.id}" style="text-decoration: none"><h5 style="; color: black"
+                                                                                                 class="card-title">${sp.sanPham.ten}</h5>
+                                    </a>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <del><fmt:formatNumber value="${sp.giaBan}"
+                                                                   pattern="###,###"></fmt:formatNumber>VND
+                                            </del>
+                                        </div>
+                                        <div class="col-6">
+                                            <p><fmt:formatNumber value="${sp.giaBan - ((sp.giaBan*sp.voucher)/100)}"
+                                                                 pattern="###,###"></fmt:formatNumber>VND</p>
+                                        </div>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="/detail/${sp.id}" style="position: relative; display: inline-block;">
+                                        <div style="position: relative; display: inline-block;">
+                                            <img style="width: 269px; height: 300px; border-radius: 5px;" src="../../static/${sp.image}" alt="...">
+                                        </div>
+                                    </a>
+
+
+                                    <div class="card-body">
+                                        <a href="/detail/${sp.id}" style="text-decoration: none"><h5 style="; color: black"
+                                                                                                     class="card-title">${sp.sanPham.ten}</h5>
+                                        </a>
+                                    <p><fmt:formatNumber value="${sp.giaBan}"
+                                                         pattern="###,###"></fmt:formatNumber>VND</p>
+                                </c:otherwise>
+                            </c:choose>
 
                             <div class="row">
                                 <div class="col-6">
@@ -158,7 +195,7 @@
 </main>
 <br>
 <jsp:include page="layout/footer.jsp"></jsp:include>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.js"></script>
 <script>
     // Khởi tạo thanh range slider
     var priceRange = document.getElementById('priceRange');

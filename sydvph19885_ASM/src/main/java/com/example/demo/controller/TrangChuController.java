@@ -96,6 +96,7 @@ public class TrangChuController {
         for (int i = 0; i < phanTrangSP(pageNumber).getTotalPages(); i++) {
             phanTrangSo.add(i);
         }
+        System.out.println("1111111:" + phanTrangSP(pageNumber).getContent());
         model.addAttribute("soTrang", phanTrangSo);
 //
         model.addAttribute("giaMin", Integer.valueOf((int) chiTietSanPhamService.findByOrderByGiaBanAsc().get(0).getGiaBan()));
@@ -431,7 +432,7 @@ public class TrangChuController {
 
     @GetMapping("/drop")
     public String demo(Model model) {
-        return "dropDown";
+        return "mau";
     }
 
 

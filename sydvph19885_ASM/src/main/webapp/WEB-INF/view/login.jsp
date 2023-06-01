@@ -46,8 +46,6 @@
                     <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
                     <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                 </div>
-                <%--                <span style="color: red">${thongBaoThanhCong}</span>--%>
-                <%--                <span style="color: red">${thongBao}</span>--%>
                 <input type="email" required name="email" value="${emails}" placeholder="Email"/>
                 <input type="password" required name="pass" value="${passs}" placeholder="Password"/>
                 <a href="/forgot-pass">Forgot your password?</a>

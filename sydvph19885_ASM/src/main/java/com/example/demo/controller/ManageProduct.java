@@ -146,7 +146,7 @@ public class ManageProduct {
     }
 
     @PostMapping("/add")
-    public String updateProduct(Model model, HttpServletRequest request, Optional<Integer> trangSo, @RequestParam(name = "tenSanPham") String sanPham, @RequestParam(name = "nsx") String nsx, @RequestParam(name = "soLuong") int soLuong, @RequestParam(name = "mauSac") String mauSac, @RequestParam(name = "size") Integer size, @RequestParam(name = "namBH") int namBH, @RequestParam(name = "giaNhap") float giaNhap, @RequestParam(name = "giaBan") float giaBan, @RequestParam(name = "moTa") String moTa, @RequestParam(name = "file") MultipartFile fileName) throws IOException {
+    public String updateProduct(Model model, HttpServletRequest request, Optional<Integer> trangSo, @RequestParam(name = "voucher") Integer voucher, @RequestParam(name = "tenSanPham") String sanPham, @RequestParam(name = "nsx") String nsx, @RequestParam(name = "soLuong") int soLuong, @RequestParam(name = "mauSac") String mauSac, @RequestParam(name = "size") Integer size, @RequestParam(name = "namBH") int namBH, @RequestParam(name = "giaNhap") float giaNhap, @RequestParam(name = "giaBan") float giaBan, @RequestParam(name = "moTa") String moTa, @RequestParam(name = "file") MultipartFile fileName) throws IOException {
         SanPham sanPhamByName = sanPhamService.findSanPhamByTen(sanPham);
         SanPham sanPhamAddName = null;
         if (sanPhamByName == null) {
@@ -164,9 +164,9 @@ public class ManageProduct {
         ChiTietSP chiTietSP = null;
         Date date = new Date();
         if (chiTietSPUpdate == null) {
-            chiTietSP = new ChiTietSP(sanXuat, mauSacAdd, sanPhamAddName, dongSPAdd, namBH, moTa, anh, soLuong, giaNhap, giaBan, size, new java.sql.Date(date.getTime()));
+            chiTietSP = new ChiTietSP(sanXuat, mauSacAdd, sanPhamAddName, dongSPAdd, namBH, moTa, anh, soLuong, giaNhap, giaBan, size, new java.sql.Date(date.getTime()),voucher);
         } else {
-            chiTietSP = new ChiTietSP(chiTietSPUpdate.getId(), sanXuat, mauSacAdd, sanPhamAddName, dongSPAdd, namBH, moTa, anh, soLuong, giaNhap, giaBan, size, new java.sql.Date(date.getTime()));
+            chiTietSP = new ChiTietSP(chiTietSPUpdate.getId(), sanXuat, mauSacAdd, sanPhamAddName, dongSPAdd, namBH, moTa, anh, soLuong, giaNhap, giaBan, size, new java.sql.Date(date.getTime()), voucher);
         }
 //        nếu so luong ,gia ban , gia nhap < 0
         if (namBH < 0) {

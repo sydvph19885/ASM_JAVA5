@@ -90,6 +90,8 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+
+
 <%--    <ul class="pagination">--%>
 <%--        <c:if test="${sanPham.number > 0}">--%>
 <%--            <li class="page-item">--%>
