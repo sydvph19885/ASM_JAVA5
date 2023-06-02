@@ -164,11 +164,11 @@
                 <c:forEach items="${soTrang}" var="page">
                     <c:choose>
                         <c:when test="${page.equals(trangHienTai) }">
-                            <li class="page-item active"><a class="page-link" href="/home/${page}"><c:out
+                            <li class="page-item active"><a class="page-link" href="/home/${page +1}"><c:out
                                     value="${page+1}"></c:out></a></li>
                         </c:when>
                         <c:otherwise>
-                            <li class="page-item"><a class="page-link" href="/home/${page}"><c:out
+                            <li class="page-item"><a class="page-link" href="/home/${page +1}"><c:out
                                     value="${page+1}"></c:out></a></li>
                         </c:otherwise>
                     </c:choose>

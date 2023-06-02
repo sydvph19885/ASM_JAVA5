@@ -164,7 +164,7 @@ public class ManageProduct {
         ChiTietSP chiTietSP = null;
         Date date = new Date();
         if (chiTietSPUpdate == null) {
-            chiTietSP = new ChiTietSP(sanXuat, mauSacAdd, sanPhamAddName, dongSPAdd, namBH, moTa, anh, soLuong, giaNhap, giaBan, size, new java.sql.Date(date.getTime()),voucher);
+            chiTietSP = new ChiTietSP(sanXuat, mauSacAdd, sanPhamAddName, dongSPAdd, namBH, moTa, anh, soLuong, giaNhap, giaBan, size, new java.sql.Date(date.getTime()), voucher);
         } else {
             chiTietSP = new ChiTietSP(chiTietSPUpdate.getId(), sanXuat, mauSacAdd, sanPhamAddName, dongSPAdd, namBH, moTa, anh, soLuong, giaNhap, giaBan, size, new java.sql.Date(date.getTime()), voucher);
         }
@@ -188,6 +188,12 @@ public class ManageProduct {
         } else if (giaNhap < 0) {
             model.addAttribute("ctsp", chiTietSP);
             model.addAttribute("giaNhapss", "Phải lớn hơn 0");
+            viewManage(model, Optional.of(trangSo.orElse(0)));
+            viewCart(model);
+            return "manage-product";
+        } else if (voucher < 0 || voucher > 100) {
+            model.addAttribute("ctsp", chiTietSP);
+            model.addAttribute("voucherss", "Voucher trong khoảng 0 -100");
             viewManage(model, Optional.of(trangSo.orElse(0)));
             viewCart(model);
             return "manage-product";

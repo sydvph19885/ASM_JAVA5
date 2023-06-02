@@ -122,13 +122,11 @@
                 </select>
                 <br>
                 <div class="input-group flex-nowrap">
-                    <span class="input-group-text" id="addon-wrapping">Voucher</span>
-                    <input type="number" class="form-control" value="${ctsp.voucher}" required
-                           placeholder="voucher %"
-                           name="voucher"
-                           aria-describedby="addon-wrapping">
-                    <span class="input-group-text" id="addon-wrapping">%</span>
+                    <span class="input-group-text" id="addon-wrapping">Mô tả</span>
+                    <textarea type="text" class="form-control" required placeholder="Mô tả" name="moTa"
+                              aria-describedby="addon-wrapping">${ctsp.moTa}</textarea>
                 </div>
+
                 <p style="color: red;text-align: center">${thongBaoImg}</p>
             </div>
             <div class="col-6">
@@ -192,11 +190,23 @@
                     </div>
                 </div>
                 <br>
-                <div class="input-group flex-nowrap">
-                    <span class="input-group-text" id="addon-wrapping">Mô tả</span>
-                    <textarea type="text" class="form-control" required placeholder="Mô tả" name="moTa"
-                              aria-describedby="addon-wrapping">${ctsp.moTa}</textarea>
+                <div class="row">
+                    <div class="col-9">
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping">Voucher</span>
+                            <input type="number" class="form-control" value="${ctsp.voucher}" required
+                                   placeholder="voucher %"
+                                   name="voucher"
+                                   aria-describedby="addon-wrapping">
+                            <span class="input-group-text" id="addon-wrapping">%</span>
+                        </div>
+                    </div>
+                    <div class="col-3" ><p style="color: red;font-weight: bold">${voucherss}</p>
+                    </div>
                 </div>
+                <br>
+
+
                 <br>
                 <div class="row">
                     <div class="col-2">Ảnh</div>
@@ -321,11 +331,11 @@
                 <c:forEach items="${soTrang}" var="page">
                     <c:choose>
                         <c:when test="${page.equals(trangHienTai) }">
-                            <li class="page-item active"><a class="page-link" href="/manage-product/${page}"><c:out
+                            <li class="page-item active"><a class="page-link" href="/manage-product/${page+1}"><c:out
                                     value="${page+1}"></c:out></a></li>
                         </c:when>
                         <c:otherwise>
-                            <li class="page-item"><a class="page-link" href="/manage-product/${page}"><c:out
+                            <li class="page-item"><a class="page-link" href="/manage-product/${page+1}"><c:out
                                     value="${page+1}"></c:out></a></li>
                         </c:otherwise>
                     </c:choose>

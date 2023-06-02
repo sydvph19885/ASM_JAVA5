@@ -96,12 +96,13 @@ public class GioHangController {
                 int soLuongSanPhamTrongGioHang = 0;
                 double tongTienHang = 0;
                 for (GioHangChiTiet gioHangChiTiet : gioHangChiTietList) {
-                    tongTienHang += gioHangChiTiet.getDonGia().doubleValue();
+                    tongTienHang += gioHangChiTiet.getDonGiaKhiGiam().doubleValue();
                     soLuongSanPhamTrongGioHang += gioHangChiTiet.getSoLuong();
                 }
                 GioHangChiTiet gioHangChiTiet = gioHangChiTietService.findGioHangChiTietById(id);
                 gioHangChiTiet.setSoLuong(soLuongSP);
                 gioHangChiTiet.setDonGia(BigDecimal.valueOf(soLuongSP * gioHangChiTiet.getChiTietSP().getGiaBan()));
+                gioHangChiTiet.setDonGiaKhiGiam(BigDecimal.valueOf((soLuongSP * gioHangChiTiet.getChiTietSP().getGiaBan()) - ((soLuongSP * gioHangChiTiet.getChiTietSP().getGiaBan() * gioHangChiTiet.getChiTietSP().getVoucher())) / 100));
                 gioHangChiTietService.addOrUpdate(gioHangChiTiet);
                 model.addAttribute("tongTienHang", tongTienHang);
             }

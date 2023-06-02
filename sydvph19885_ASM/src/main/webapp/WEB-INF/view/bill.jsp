@@ -16,53 +16,57 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/dist/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.css">
     <style>
-<%--<%@include file="css/bill.css"%>--%>
-.body-main {
-    background: #ffffff;
-    border-bottom: 15px solid #1E1F23;
-    border-top: 15px solid #1E1F23;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    padding: 40px 30px !important;
-    position: relative ;
-    box-shadow: 0 1px 21px #808080;
-    font-size:10px;
+        <%--<%@include file="css/bill.css"%>--%>
+        .body-main {
+            background: #ffffff;
+            border-bottom: 15px solid #1E1F23;
+            border-top: 15px solid #1E1F23;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            padding: 40px 30px !important;
+            position: relative;
+            box-shadow: 0 1px 21px #808080;
+            font-size: 10px;
 
 
+        }
 
-}
+        .main thead {
+            background: #1E1F23;
+            color: #fff;
+        }
 
-.main thead {
-    background: #1E1F23;
-    color: #fff;
-}
-.img{
-    height: 100px;}
-h1{
-    text-align: center;
-}
-.subtotal-column {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-}
+        .img {
+            height: 100px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .subtotal-column {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
     </style>
 </head>
-<body >
+<body>
 <jsp:include page="layout/header.jsp"></jsp:include>
 <br>
 <main style="margin-left: 450px">
-    <div class="container" >
+    <div class="container">
         <div class="container">
             <div class="row">
                 <div class="col-md-6 col-md-offset-3 body-main">
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-4">
-                                <img class="img" alt="Invoce Template" src="http://pngimg.com/uploads/shopping_cart/shopping_cart_PNG59.png" />
+                                <img class="img" alt="Invoce Template"
+                                     src="http://pngimg.com/uploads/shopping_cart/shopping_cart_PNG59.png"/>
                             </div>
-                         <c:choose>
-                             <c:when test="${sessionScope.account != null}">
+                            <c:choose>
+                            <c:when test="${sessionScope.account != null}">
                             <div class="col-md-8 text-right">
                                 <h4 style="color: #F81D2D;"><strong>Khách hàng: ${hoaDon.tenNguoiNhan}</strong></h4>
                                 <p>Số điện thoại: ${hoaDon.sdt}</p>
@@ -71,14 +75,14 @@ h1{
 
                             </div>
                         </div>
-                        <br />
+                        <br/>
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <h2>Hóa đơn thanh toán</h2>
                                 <h5><fmt:formatNumber value="${soHoaDon}" pattern="##########"></fmt:formatNumber></h5>
                             </div>
                         </div>
-                        <br />
+                        <br/>
                         <div>
                             <table class="table">
                                 <thead>
@@ -91,30 +95,46 @@ h1{
                                 <tbody>
                                 <c:forEach items="${sanPhamMua}" var="sp">
                                     <tr>
-                                        <td class="col-md-6 " >${sp.chiTietSP.sanPham.ten}</td>
-                                        <td class="col-md-3 " >${sp.soLuong}</td>
-                                        <td class="col-md-auto " style="margin-left: 20px"><fmt:formatNumber value="${sp.chiTietSP.giaBan * sp.soLuong}" pattern="###,###"></fmt:formatNumber> VND</td>
+                                        <td class="col-md-6 ">${sp.chiTietSP.sanPham.ten}</td>
+                                        <td class="col-md-3 ">${sp.soLuong}</td>
+                                        <td class="col-md-auto " style="margin-left: 20px"><fmt:formatNumber
+                                                value="${sp.chiTietSP.giaBan * sp.soLuong}"
+                                                pattern="###,###"></fmt:formatNumber> VND
+                                        </td>
                                     </tr>
                                 </c:forEach>
 
                                 <tr>
                                     <td class="text-right">
                                         <p>
-                                            <strong>Tổng tiền sản phẩm: </strong>
+                                            <strong>Giảm giá: </strong>
                                         </p>
                                         <p>
+                                            <strong>Tổng tiền sản phẩm: </strong>
+                                        </p>
+
+                                        <p>
                                             <strong>VAT: </strong>
-                                        </p>  <p>
-                                        <strong>Shipping: </strong>
-                                    </p>
+                                        </p>
+                                        <p>
+                                            <strong>Shipping: </strong>
+                                        </p>
                                         <p>
                                             <strong>Tổng thanh toán: </strong>
                                         </p>
                                     </td>
                                     <td class="col-md-12 subtotal-column" style="margin-left: 50px">
                                         <p>
-                                            <strong> <fmt:formatNumber value="${tongTienHang}" pattern="###,###"></fmt:formatNumber> VND</strong>
+                                            <strong> <fmt:formatNumber value="${giamGia}"
+                                                                       pattern="###,###"></fmt:formatNumber>
+                                                VND</strong>
                                         </p>
+                                        <p>
+                                            <strong> <fmt:formatNumber value="${tongTienHang}"
+                                                                       pattern="###,###"></fmt:formatNumber>
+                                                VND</strong>
+                                        </p>
+
                                         <p>
                                             <strong> 10%</strong>
                                         </p>
@@ -122,7 +142,9 @@ h1{
                                             <strong> 20,000 VND</strong>
                                         </p>
                                         <p>
-                                            <strong><fmt:formatNumber value="${tongTienHang + ((tongTienHang*10)/100) + 20000}"  pattern="###,###"></fmt:formatNumber> VND</strong>
+                                            <strong><fmt:formatNumber
+                                                    value="${tongTienHang + ((tongTienHang*10)/100) + 20000}"
+                                                    pattern="###,###"></fmt:formatNumber> VND</strong>
                                         </p>
 
                                     </td>
@@ -130,7 +152,7 @@ h1{
                                 </tbody>
                             </table>
                         </div>
-                             </c:when>
+                        </c:when>
                         <c:otherwise>
                         <div class="col-md-8 text-right">
                             <h4 style="color: #F81D2D;"><strong>Khách hàng: ${hoaDon.tenNguoiNhan}</strong></h4>
@@ -140,14 +162,14 @@ h1{
 
                         </div>
                     </div>
-                    <br />
+                    <br/>
                     <div class="row">
                         <div class="col-md-12 text-center">
                             <h2>Hóa đơn thanh toán</h2>
                             <h5><fmt:formatNumber value="${soHoaDon}" pattern="##########"></fmt:formatNumber></h5>
                         </div>
                     </div>
-                    <br />
+                    <br/>
                     <div>
                         <table class="table">
                             <thead>
@@ -160,9 +182,12 @@ h1{
                             <tbody>
                             <c:forEach items="${sanPhamMua}" var="sp">
                                 <tr>
-                                    <td class="col-md-6 " >${sp.key.sanPham.ten}</td>
-                                    <td class="col-md-3 " >${sp.value}</td>
-                                    <td class="col-md-auto " style="margin-left: 20px"><fmt:formatNumber value="${sp.key.giaBan * sp.value}" pattern="###,###"></fmt:formatNumber> VND</td>
+                                    <td class="col-md-6 ">${sp.key.sanPham.ten}</td>
+                                    <td class="col-md-3 ">${sp.value}</td>
+                                    <td class="col-md-auto " style="margin-left: 20px"><fmt:formatNumber
+                                            value="${sp.key.giaBan * sp.value}" pattern="###,###"></fmt:formatNumber>
+                                        VND
+                                    </td>
                                 </tr>
                             </c:forEach>
 
@@ -173,16 +198,18 @@ h1{
                                     </p>
                                     <p>
                                         <strong>VAT: </strong>
-                                    </p>  <p>
-                                    <strong>Shipping: </strong>
-                                </p>
+                                    </p>
+                                    <p>
+                                        <strong>Shipping: </strong>
+                                    </p>
                                     <p>
                                         <strong>Tổng thanh toán: </strong>
                                     </p>
                                 </td>
                                 <td class="col-md-12 subtotal-column" style="margin-left: 50px">
                                     <p>
-                                        <strong> <fmt:formatNumber value="${tongTienHang}" pattern="###,###"></fmt:formatNumber> VND</strong>
+                                        <strong> <fmt:formatNumber value="${tongTienHang}"
+                                                                   pattern="###,###"></fmt:formatNumber> VND</strong>
                                     </p>
                                     <p>
                                         <strong> 10%</strong>
@@ -191,7 +218,9 @@ h1{
                                         <strong> 20,000 VND</strong>
                                     </p>
                                     <p>
-                                        <strong><fmt:formatNumber value="${tongTienHang + ((tongTienHang*10)/100) + 20000}"  pattern="###,###"></fmt:formatNumber> VND</strong>
+                                        <strong><fmt:formatNumber
+                                                value="${tongTienHang + ((tongTienHang*10)/100) + 20000}"
+                                                pattern="###,###"></fmt:formatNumber> VND</strong>
                                     </p>
 
                                 </td>
@@ -199,20 +228,20 @@ h1{
                             </tbody>
                         </table>
                     </div>
-                        </c:otherwise>
-                         </c:choose>
+                    </c:otherwise>
+                    </c:choose>
 
-                        <div>
-                            <div class="col-md-12">
-                                <p><b>Date :</b> ${time}</p>
-                                <br />
-                                <p><b>Signature</b></p>
-                            </div>
+                    <div>
+                        <div class="col-md-12">
+                            <p><b>Date :</b> ${time}</p>
+                            <br/>
+                            <p><b>Signature</b></p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </main>
 <br>

@@ -80,7 +80,7 @@ public class HoaDonController {
                                     GioHang gioHangss = gioHangService.findGioHangByAccount(account);
                                     List<GioHangChiTiet> listGioHang = gioHangChiTietService.findGioHangChiTietByGioHang(gioHangss);
                                     for (GioHangChiTiet gioHangChiTiets : listGioHang) {
-                                        tongTienHang += gioHangChiTiets.getDonGia().doubleValue();
+                                        tongTienHang += gioHangChiTiets.getDonGiaKhiGiam().doubleValue();
                                         soLuongSanPhamTrongGioHang += gioHangChiTiets.getSoLuong();
                                     }
                                     model.addAttribute("tongTienHang", tongTienHang);
@@ -107,7 +107,7 @@ public class HoaDonController {
                                     GioHang gioHangss = gioHangService.findGioHangByAccount(account);
                                     List<GioHangChiTiet> listGioHang = gioHangChiTietService.findGioHangChiTietByGioHang(gioHangss);
                                     for (GioHangChiTiet gioHangChiTiets : listGioHang) {
-                                        tongTienHang += gioHangChiTiets.getDonGia().doubleValue();
+                                        tongTienHang += gioHangChiTiets.getDonGiaKhiGiam().doubleValue();
                                         soLuongSanPhamTrongGioHang += gioHangChiTiets.getSoLuong();
                                     }
                                     model.addAttribute("tongTienHang", tongTienHang);
@@ -171,14 +171,20 @@ public class HoaDonController {
                 GioHang gioHang = gioHangService.findGioHangByAccount(account);
                 List<GioHangChiTiet> gioHangChiTietList = gioHangChiTietService.findGioHangChiTietByGioHang(gioHang);
                 double tongTienHang = 0;
+                double tongTienGiamGia = 0;
                 for (GioHangChiTiet gioHangChiTiet : gioHangChiTietList) {
-                    HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet(gioHangChiTiet.getDonGia(), gioHangChiTiet.getSoLuong(), gioHangChiTiet.getChiTietSP(), hoaDon);
+                    HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet(gioHangChiTiet.getDonGiaKhiGiam(), gioHangChiTiet.getSoLuong(), gioHangChiTiet.getChiTietSP(), hoaDon);
                     ChiTietSP chiTietSP = chiTietSanPhamService.findAllById(gioHangChiTiet.getChiTietSP().getId());
                     chiTietSP.setSoLuongTon(chiTietSP.getSoLuongTon() - gioHangChiTiet.getSoLuong());
-                    tongTienHang += gioHangChiTiet.getDonGia().doubleValue();
+                    if (chiTietSP.getVoucher() != 0) {
+                        tongTienGiamGia += ((chiTietSP.getVoucher() * chiTietSP.getGiaBan()) / 100) * gioHangChiTiet.getSoLuong();
+                    }
+                    tongTienHang += gioHangChiTiet.getDonGiaKhiGiam().doubleValue();
                     hoaDonChiTietService.addOrUpDate(hoaDonChiTiet);
+
                 }
                 model.addAttribute("sanPhamMua", gioHangChiTietList);
+                model.addAttribute("giamGia", tongTienGiamGia);
                 model.addAttribute("time", date);
                 model.addAttribute("hoaDon", hoaDon);
                 model.addAttribute("email", email);

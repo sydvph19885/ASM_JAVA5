@@ -174,7 +174,6 @@ public class TrangChuController {
                 model.addAttribute("gioHang", danhSachGH);
                 model.addAttribute("tongTienHang", tongTienHang);
                 model.addAttribute("vat", tongTienHang + ((tongTienHang * 10) / 100));
-//                model.addAttribute("gioHang", listGioHang);
                 model.addAttribute("soLuong", soLuongSanPhamTrongGioHang);
             } else {
                 int soLuongSanPhamTrongGioHang = 0;
@@ -182,7 +181,7 @@ public class TrangChuController {
                 GioHang gioHang = gioHangService.findGioHangByAccount(account);
                 List<GioHangChiTiet> listGioHang = gioHangChiTietService.findGioHangChiTietByGioHang(gioHang);
                 for (GioHangChiTiet gioHangChiTiet : listGioHang) {
-                    tongTienHang += gioHangChiTiet.getDonGia().doubleValue();
+                    tongTienHang += gioHangChiTiet.getDonGiaKhiGiam().doubleValue();
                     soLuongSanPhamTrongGioHang += gioHangChiTiet.getSoLuong();
                 }
                 model.addAttribute("tongTienHang", tongTienHang);
@@ -222,7 +221,13 @@ public class TrangChuController {
                         GioHang gioHangClient = new GioHang(UUID.randomUUID().toString(), new java.sql.Date(date.getTime()), account);
                         gioHangService.addOrUpdateGioHangClient(gioHangClient);
 //                tạo gio hàng xong -> tạo gio hang chi tiet
-                        GioHangChiTiet gioHangChiTiet = new GioHangChiTiet(BigDecimal.valueOf(chiTietSP.getGiaBan() * 1), BigDecimal.valueOf(0), 1, chiTietSP, gioHangClient);
+                        GioHangChiTiet gioHangChiTiet = null;
+                        if (chiTietSP.getVoucher() == 0) {
+                            gioHangChiTiet = new GioHangChiTiet(BigDecimal.valueOf(chiTietSP.getGiaBan()), BigDecimal.valueOf(chiTietSP.getGiaBan() * 1), 1, chiTietSP, gioHangClient);
+                        } else {
+                            gioHangChiTiet = new GioHangChiTiet(BigDecimal.valueOf(chiTietSP.getGiaBan()), BigDecimal.valueOf(chiTietSP.getGiaBan() - ((chiTietSP.getGiaBan() * chiTietSP.getVoucher()) / 100)), 1, chiTietSP, gioHangClient);
+                        }
+
                         gioHangChiTietService.addOrUpdate(gioHangChiTiet);
                     } else {
                         //                nếu đã có giỏ hàng -> tạo giỏ hàng chi tiết
@@ -231,9 +236,20 @@ public class TrangChuController {
                         if (gioHangChiTietByCtspAndAccount != null) {
                             gioHangChiTietByCtspAndAccount.setSoLuong(gioHangChiTietByCtspAndAccount.getSoLuong() + 1);
                             gioHangChiTietByCtspAndAccount.setDonGia(BigDecimal.valueOf(gioHangChiTietByCtspAndAccount.getSoLuong() * chiTietSP.getGiaBan()));
+                            if (chiTietSP.getVoucher() == 0) {
+                                gioHangChiTietByCtspAndAccount.setDonGiaKhiGiam(BigDecimal.valueOf(gioHangChiTietByCtspAndAccount.getSoLuong() * chiTietSP.getGiaBan()));
+                            } else {
+                                gioHangChiTietByCtspAndAccount.setDonGiaKhiGiam(BigDecimal.valueOf((gioHangChiTietByCtspAndAccount.getSoLuong() * chiTietSP.getGiaBan()) - ((gioHangChiTietByCtspAndAccount.getSoLuong() * chiTietSP.getGiaBan() * chiTietSP.getVoucher()) / 100)));
+                            }
+
                             gioHangChiTietService.addOrUpdate(gioHangChiTietByCtspAndAccount);
                         } else {
-                            GioHangChiTiet gioHangChiTiet = new GioHangChiTiet(BigDecimal.valueOf(chiTietSP.getGiaBan()), BigDecimal.valueOf(0), 1, chiTietSP, gioHang);
+                            GioHangChiTiet gioHangChiTiet = null;
+                            if (chiTietSP.getVoucher() == 0) {
+                                gioHangChiTiet = new GioHangChiTiet(BigDecimal.valueOf(chiTietSP.getGiaBan()), BigDecimal.valueOf(chiTietSP.getGiaBan() * 1), 1, chiTietSP, gioHang);
+                            } else {
+                                gioHangChiTiet = new GioHangChiTiet(BigDecimal.valueOf(chiTietSP.getGiaBan()), BigDecimal.valueOf(chiTietSP.getGiaBan() - ((chiTietSP.getGiaBan() * chiTietSP.getVoucher()) / 100)), 1, chiTietSP, gioHang);
+                            }
                             gioHangChiTietService.addOrUpdate(gioHangChiTiet);
                         }
 
@@ -258,20 +274,12 @@ public class TrangChuController {
 //        nếu số lượng tồn của sản phẩm hết
             if (chiTietSP.getSoLuongTon() <= 0) {
                 model.addAttribute("soLuongTon", "Sản phẩm này đã hết hàng! Vui lòng chọn sản phẩm khác!");
-                viewTrangChu(model, Optional.of(page.orElse(0)));
-                return "trang-chu";
             } else {
                 //        nếu không có tài khoản đăng nhập
                 if (account == null) {
                     Map<String, Integer> gioHangMap = gioHangService.getAllGioHang();
                     Set<String> key = gioHangMap.keySet();
                     gioHangService.addGioHangUser(idSP, 1);
-                    Map<ChiTietSP, Integer> danhSachGH = new HashMap<>();
-                    for (String keySP : key) {
-                        Integer value = gioHangMap.get(keySP);
-                        danhSachGH.put(chiTietSanPhamService.findAllById(keySP), value);
-                    }
-                    model.addAttribute("gioHang", danhSachGH);
                 } else {
                     //     có tài khoản đăng nhập
 //            nếu giỏ hàng chưa có khách hàng -> tạo
@@ -280,7 +288,13 @@ public class TrangChuController {
                         GioHang gioHangClient = new GioHang(UUID.randomUUID().toString(), new java.sql.Date(date.getTime()), account);
                         gioHangService.addOrUpdateGioHangClient(gioHangClient);
 //                tạo gio hàng xong -> tạo gio hang chi tiet
-                        GioHangChiTiet gioHangChiTiet = new GioHangChiTiet(BigDecimal.valueOf(chiTietSP.getGiaBan() * 1), BigDecimal.valueOf(0), 1, chiTietSP, gioHangClient);
+                        GioHangChiTiet gioHangChiTiet = null;
+                        if (chiTietSP.getVoucher() == 0) {
+                            gioHangChiTiet = new GioHangChiTiet(BigDecimal.valueOf(chiTietSP.getGiaBan()), BigDecimal.valueOf(chiTietSP.getGiaBan() * 1), 1, chiTietSP, gioHangClient);
+                        } else {
+                            gioHangChiTiet = new GioHangChiTiet(BigDecimal.valueOf(chiTietSP.getGiaBan()), BigDecimal.valueOf(chiTietSP.getGiaBan() - ((chiTietSP.getGiaBan() * chiTietSP.getVoucher()) / 100)), 1, chiTietSP, gioHangClient);
+                        }
+
                         gioHangChiTietService.addOrUpdate(gioHangChiTiet);
                     } else {
                         //                nếu đã có giỏ hàng -> tạo giỏ hàng chi tiết
@@ -289,16 +303,26 @@ public class TrangChuController {
                         if (gioHangChiTietByCtspAndAccount != null) {
                             gioHangChiTietByCtspAndAccount.setSoLuong(gioHangChiTietByCtspAndAccount.getSoLuong() + 1);
                             gioHangChiTietByCtspAndAccount.setDonGia(BigDecimal.valueOf(gioHangChiTietByCtspAndAccount.getSoLuong() * chiTietSP.getGiaBan()));
+                            if (chiTietSP.getVoucher() == 0) {
+                                gioHangChiTietByCtspAndAccount.setDonGiaKhiGiam(BigDecimal.valueOf(gioHangChiTietByCtspAndAccount.getSoLuong() * chiTietSP.getGiaBan()));
+                            } else {
+                                gioHangChiTietByCtspAndAccount.setDonGiaKhiGiam(BigDecimal.valueOf((gioHangChiTietByCtspAndAccount.getSoLuong() * chiTietSP.getGiaBan()) - ((gioHangChiTietByCtspAndAccount.getSoLuong() * chiTietSP.getGiaBan() * chiTietSP.getVoucher()) / 100)));
+                            }
+
                             gioHangChiTietService.addOrUpdate(gioHangChiTietByCtspAndAccount);
                         } else {
-                            GioHangChiTiet gioHangChiTiet = new GioHangChiTiet(BigDecimal.valueOf(chiTietSP.getGiaBan()), BigDecimal.valueOf(0), 1, chiTietSP, gioHang);
+                            GioHangChiTiet gioHangChiTiet = null;
+                            if (chiTietSP.getVoucher() == 0) {
+                                gioHangChiTiet = new GioHangChiTiet(BigDecimal.valueOf(chiTietSP.getGiaBan()), BigDecimal.valueOf(chiTietSP.getGiaBan() * 1), 1, chiTietSP, gioHang);
+                            } else {
+                                gioHangChiTiet = new GioHangChiTiet(BigDecimal.valueOf(chiTietSP.getGiaBan()), BigDecimal.valueOf(chiTietSP.getGiaBan() - ((chiTietSP.getGiaBan() * chiTietSP.getVoucher()) / 100)), 1, chiTietSP, gioHang);
+                            }
                             gioHangChiTietService.addOrUpdate(gioHangChiTiet);
                         }
 
                     }
                 }
                 viewCart(model);
-//        return "redirect:/home";
                 return "cart";
             }
         } catch (Exception e) {
@@ -306,8 +330,8 @@ public class TrangChuController {
             viewTrangChu(model, Optional.of(page.orElse(0)));
             return "trang-chu";
         }
-
-
+        viewCart(model);
+        return "cart";
     }
 
     @GetMapping("/profile")
@@ -390,12 +414,6 @@ public class TrangChuController {
         }
 
     }
-
-
-//    @GetMapping("/thong-ke")
-//    public String viewThongKe(Model model) {
-//        return "slider";
-//    }
 
     @GetMapping("/search-between-price")
     public String timTheoKhoangGia(Model model, @RequestParam(name = "trangSo") Optional<Integer> trangSo, @RequestParam(name = "selectedPriceMin") Integer giaMin, @RequestParam(name = "selectedPriceMax") Integer giaMax) {

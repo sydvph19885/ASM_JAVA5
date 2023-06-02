@@ -79,7 +79,7 @@
                                                                     </div>
                                                                     <div style="width: 190px;">
                                                                         <h5 class="mb-0"><fmt:formatNumber
-                                                                                value="${gh.donGia}"
+                                                                                value="${gh.donGiaKhiGiam}"
                                                                                 pattern="###,###"></fmt:formatNumber>VND
                                                                         </h5>
                                                                     </div>
