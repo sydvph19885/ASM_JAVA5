@@ -25,6 +25,8 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 
@@ -448,9 +450,26 @@ public class TrangChuController {
         return "contact";
     }
 
-    @GetMapping("/drop")
+
+    @GetMapping("/top-10-long-stock")
     public String demo(Model model) {
-        return "mau";
+        List<ChiTietSP> top10SanPhamTonHangLauNhat = chiTietSanPhamService.topSanPhamTonHangLauNhat();
+        LocalDate ngayHienTai = LocalDate.now();
+
+        List<Long> thoiGianTonKho = new ArrayList<>();
+        for (ChiTietSP chiTietSP : top10SanPhamTonHangLauNhat) {
+            Date ngayNhap = chiTietSP.getNgayNhap();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(ngayNhap);
+            if (chiTietSP.getNgayNhap() != null) {
+                LocalDate nagyNhapHang = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
+                thoiGianTonKho.add(ChronoUnit.DAYS.between(nagyNhapHang, ngayHienTai));
+            }
+
+        }
+        model.addAttribute("thoiGianTonKho",thoiGianTonKho);
+        model.addAttribute("danhSach", top10SanPhamTonHangLauNhat);
+        return "danh-sach-ton-kho";
     }
 
 

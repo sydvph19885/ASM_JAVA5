@@ -22,8 +22,13 @@ public interface IChiTietSanPhamRepository extends JpaRepository<ChiTietSP, Stri
 
     List<ChiTietSP> findByOrderByGiaBanDesc();
 
-    Page<ChiTietSP> findByGiaBanBetween(int giaMin, int giaMax,Pageable pageable);
+    Page<ChiTietSP> findByGiaBanBetween(int giaMin, int giaMax, Pageable pageable);
 
+    @Query(value = """
+                       SELECT TOP 10 * FROM chi_tietsp ctsp WHERE ctsp.so_luong_ton > 0 
+                       ORDER BY ctsp.ngay_nhap ASC 
+            """,nativeQuery = true)
+    List<ChiTietSP> topSanPhamTonHangLauNhat();
 
 
 }

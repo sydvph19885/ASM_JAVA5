@@ -46,8 +46,8 @@ public class ChiTietSanPhamService implements IChiTietSanPhamService {
     }
 
     @Override
-    public Page<ChiTietSP> findAllBySanPham_Ten(String ten,Pageable pageable) {
-        return chiTietSanPhamRepository.findAllBySanPham_TenContains(ten,pageable);
+    public Page<ChiTietSP> findAllBySanPham_Ten(String ten, Pageable pageable) {
+        return chiTietSanPhamRepository.findAllBySanPham_TenContains(ten, pageable);
     }
 
     @Override
@@ -61,13 +61,18 @@ public class ChiTietSanPhamService implements IChiTietSanPhamService {
     }
 
     @Override
-    public Page<ChiTietSP> findByGiaBanBetween(int giaMin, int giaMax,Pageable pageable) {
-        return chiTietSanPhamRepository.findByGiaBanBetween(giaMin, giaMax,pageable);
+    public Page<ChiTietSP> findByGiaBanBetween(int giaMin, int giaMax, Pageable pageable) {
+        return chiTietSanPhamRepository.findByGiaBanBetween(giaMin, giaMax, pageable);
     }
 
     @Override
     public Page<ChiTietSP> phanTrangChiTietSP(Pageable pageable) {
         return chiTietSanPhamRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<ChiTietSP> topSanPhamTonHangLauNhat() {
+        return chiTietSanPhamRepository.topSanPhamTonHangLauNhat();
     }
 
 

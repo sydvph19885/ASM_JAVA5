@@ -26,7 +26,7 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="/manage-product">Manage Product</a></li>
                                 <li><a class="dropdown-item" href="/thong-ke">Top 10 Best Sale</a></li>
-                                <li><a class="dropdown-item" href="/thong-ke">Top 10 Long In Stock</a></li>
+                                <li><a class="dropdown-item" href="/top-10-long-stock">Top 10 Long In Stock</a></li>
                             </ul>
                         </div>
                         <%--                        dropdown admin--%>

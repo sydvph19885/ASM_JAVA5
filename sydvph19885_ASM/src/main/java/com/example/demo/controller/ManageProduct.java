@@ -166,7 +166,7 @@ public class ManageProduct {
         if (chiTietSPUpdate == null) {
             chiTietSP = new ChiTietSP(sanXuat, mauSacAdd, sanPhamAddName, dongSPAdd, namBH, moTa, anh, soLuong, giaNhap, giaBan, size, new java.sql.Date(date.getTime()), voucher);
         } else {
-            chiTietSP = new ChiTietSP(chiTietSPUpdate.getId(), sanXuat, mauSacAdd, sanPhamAddName, dongSPAdd, namBH, moTa, anh, soLuong, giaNhap, giaBan, size, new java.sql.Date(date.getTime()), voucher);
+            chiTietSP = new ChiTietSP(chiTietSPUpdate.getId(), sanXuat, mauSacAdd, sanPhamAddName, dongSPAdd, namBH, moTa, anh, soLuong, giaNhap, giaBan, size, chiTietSPUpdate.getNgayNhap(), voucher);
         }
 //        nếu so luong ,gia ban , gia nhap < 0
         if (namBH < 0) {

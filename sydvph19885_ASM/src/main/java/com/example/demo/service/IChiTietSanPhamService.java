@@ -26,4 +26,6 @@ public interface IChiTietSanPhamService {
 
     Page<ChiTietSP> phanTrangChiTietSP(Pageable pageable);
 
+    List<ChiTietSP> topSanPhamTonHangLauNhat();
+
 }
