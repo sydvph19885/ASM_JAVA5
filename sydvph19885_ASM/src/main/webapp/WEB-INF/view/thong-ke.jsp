@@ -22,10 +22,10 @@
         <c:forEach items="${thongKe}" var="tk">
             <div class="col-md-3 col-sm-6 col-12">
                 <div class="card card-pro mb-2" style="width: 269px">
-                    <img style="width: 269px;height: 300px;border-radius: 5px" src="../../static/${tk.key.image}" class="card-img-top" alt="...">
+                    <img style="width: 269px;height: 300px;border-radius: 5px" src="../../static/${tk.chiTietSP.image}" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title">Tên sản phẩm:<p style="color: red"> ${tk.key.sanPham.ten}</p> </h5>
-                        <h5 class="card-text" style="outline: #3a333b">Số lượng bán được: ${tk.value}</h5>
+                        <h5 class="card-title">Tên sản phẩm:<p style="color: red"> ${tk.chiTietSP.sanPham.ten}</p> </h5>
+                        <h5 class="card-text" style="outline: #3a333b">Số lượng bán được: ${tk.soLuong}</h5>
                     </div>
                 </div>
 

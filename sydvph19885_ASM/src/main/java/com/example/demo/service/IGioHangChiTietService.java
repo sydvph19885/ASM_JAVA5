@@ -21,4 +21,5 @@ public interface IGioHangChiTietService {
     String delete(GioHangChiTiet gioHangChiTiet);
 
     List<GioHangChiTiet> findGioHangChiTietByChiTietSP(ChiTietSP chiTietSP);
+
 }

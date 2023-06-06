@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
           integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/dist/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>
         <%@include file="css/shipping-infor.css"%>
     </style>
@@ -103,12 +104,40 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy
                                         </button>
-                                        <button type="submit" class="btn btn-primary">Xác nhận</button>
+<%--                                        <button type="submit" class="btn btn-primary">Xác nhận</button>--%>
+                                        <div class="xacNhan">
+                                            <div class="text-center">
+                                                <!-- Button HTML (to Trigger Modal) -->
+                                                <button type="submit" href="#myModal" class="btn btn-secondary" data-toggle="modal">Xác nhận</button>
+                                            </div>
+                                            <!-- Modal DAT HANG -->
+                                            <div id="myModal" class="modal fade">
+                                                <div class="modal-dialog modal-confirm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header justify-content-center">
+                                                            <div class="icon-box">
+                                                                <i class="material-icons">&#xE876;</i>
+                                                            </div>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body text-center">
+                                                            <h4>Great!</h4>
+                                                            <p>Bạn đã đặt hàng thành công.</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+<%--                                            --%>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -118,6 +147,19 @@
 <br>
 <jsp:include page="layout/footer.jsp"></jsp:include>
 
+<script>
+    $('.xacNhan button').click(function() {
+        $('#myModal').modal('show');
+
+        // Ngăn chặn action mặc định của form
+        return false;
+    });
+
+    // Đợi 5 giây trước khi thực hiện action trong form
+    setTimeout(function() {
+        $('form').submit();
+    }, 10000);
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
         integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
         crossorigin="anonymous"></script>

@@ -39,7 +39,6 @@ public class GioHangService implements IGioHangService {
         }else {
             sanPhamTrongGioHang.put(chiTietSP.getId(), soLuongChoVao);
         }
-
     }
 
     @Override

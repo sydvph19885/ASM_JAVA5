@@ -4,6 +4,9 @@ import com.example.demo.entity.*;
 import com.example.demo.service.IGioHangChiTietService;
 import com.example.demo.service.IGioHangService;
 import com.example.demo.service.IHoaDonChiTietService;
+import com.example.demo.viewModel.HoaDonChiTietViewModel;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,22 +49,25 @@ public class ThongKeController {
     }
 
     @GetMapping("/thong-ke")
-    public String view(Model model) {
-        List<HoaDonChiTiet> hoaDonChiTietList = hoaDonChiTietService.findAll();
-        Map<ChiTietSP, Integer> mapHoaDonChiTiet = new HashMap<>();
-
-        for (HoaDonChiTiet hoaDonChiTiet : hoaDonChiTietList) {
-            int soLuong = hoaDonChiTiet.getSoLuong();
-            if (mapHoaDonChiTiet.containsKey(hoaDonChiTiet.getChiTietSP())) {
-                int soLuongCu = mapHoaDonChiTiet.get(hoaDonChiTiet.getChiTietSP());
-                int soLuongMoi = soLuongCu + soLuong;
-                mapHoaDonChiTiet.put(hoaDonChiTiet.getChiTietSP(), soLuongMoi);
-            } else {
-                mapHoaDonChiTiet.put(hoaDonChiTiet.getChiTietSP(), soLuong);
-            }
-        }
-        model.addAttribute("thongKe", mapHoaDonChiTiet);
-        viewCart(model);
+    public String viewTop10BestSale(Model model) {
+        List<HoaDonChiTietViewModel> viewModels = hoaDonChiTietService.top10BanChay();
+        model.addAttribute("thongKe", viewModels);
         return "thong-ke";
     }
+//    @GetMapping("/thong-ke-tong")
+//    public String viewTHongKeTong(Model model) {
+//        List<HoaDonChiTietViewModel> viewModels = hoaDonChiTietService.top10BanChay();
+////        ObjectMapper mapper = new ObjectMapper();
+////        String thongKeJson = "";
+////        try {
+////            thongKeJson = mapper.writeValueAsString(viewModels);
+////        } catch (JsonProcessingException e) {
+////            e.printStackTrace();
+////        }
+////        model.addAttribute("thongKeJson", thongKeJson);
+//        model.addAttribute("thongKe", viewModels);
+//        return "thong-ke-tong";
+//    }
+
+
 }

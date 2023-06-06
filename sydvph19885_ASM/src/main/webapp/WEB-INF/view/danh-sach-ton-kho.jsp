@@ -27,6 +27,8 @@
     <tr>
         <th>STT</th>
         <th>SẢN PHẨM</th>
+        <th>ẢNH</th>
+        <th>SỐ LƯỢNG TỒN</th>
         <th>NGÀY NHẬP (dd/MM/yyyy)</th>
         <th>THỜI GIAN TỒN KHO (Ngày)</th>
     </tr>
@@ -34,6 +36,8 @@
         <tr>
             <td>${i.index}</td>
             <td>${sp.sanPham.ten}</td>
+            <td><img style="width: 100px;height: 100px" src="../../static/${sp.image}"></td>
+            <td>${sp.soLuongTon}</td>
             <td><fmt:formatDate value="${sp.ngayNhap}" pattern="dd/MM/yyyy"></fmt:formatDate></td>
             <td>${thoiGianTonKho.get(i.index)}</td>
 

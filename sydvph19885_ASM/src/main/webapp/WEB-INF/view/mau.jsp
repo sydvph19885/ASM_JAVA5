@@ -49,10 +49,10 @@
        <th>KEY</th>
        <th>VALUE</th>
    </tr>
-    <c:forEach items="${gioHang}" var="gh">
+    <c:forEach items="${list}" var="gh">
         <tr>
-            <td>${gh.key}</td>
-            <td>${gh.value}</td>
+            <td>${gh.chiTietSP.sanPham.ten}</td>
+            <td>${gh.soLuong}</td>
         </tr>
     </c:forEach>
 

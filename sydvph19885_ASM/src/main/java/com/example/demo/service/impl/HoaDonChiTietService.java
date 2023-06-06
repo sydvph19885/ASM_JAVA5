@@ -4,7 +4,10 @@ import com.example.demo.entity.ChiTietSP;
 import com.example.demo.entity.HoaDonChiTiet;
 import com.example.demo.repository.IHoaDonChiTietRepository;
 import com.example.demo.service.IHoaDonChiTietService;
+import com.example.demo.viewModel.HoaDonChiTietViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,5 +37,11 @@ public class HoaDonChiTietService implements IHoaDonChiTietService {
     @Override
     public List<HoaDonChiTiet> findHoaDonChiTietByChiTietSP(ChiTietSP chiTietSP) {
         return hoaDonChiTietRepository.findHoaDonChiTietByChiTietSP(chiTietSP);
+    }
+
+    @Override
+    public List<HoaDonChiTietViewModel> top10BanChay() {
+        Pageable pageable = PageRequest.of(0, 10);
+        return hoaDonChiTietRepository.top10BanChay(pageable);
     }
 }
