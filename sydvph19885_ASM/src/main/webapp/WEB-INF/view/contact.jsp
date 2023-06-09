@@ -33,7 +33,7 @@
     <div class="fish" id="fish"></div>
     <div class="fish" id="fish2"></div>
 
-    <form id="waterform" action="/home" method="get">
+    <form id="waterform" action="/send-contact" method="post">
 
         <div class="formgroup" id="name-form">
             <label for="name">Your name*</label>

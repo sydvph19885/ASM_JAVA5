@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.*;
 import com.example.demo.service.*;
+import com.example.demo.utill.EmailService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletRequest;
@@ -49,6 +50,8 @@ public class TrangChuController {
     @Autowired
     IGioHangChiTietService gioHangChiTietService;
 
+    @Autowired
+    EmailService emailService;
 
 
     private final Map<ChiTietSP, Integer> danhSachSanPham = new HashMap<>();
@@ -138,7 +141,7 @@ public class TrangChuController {
                 accountService.saveOrUpdate(account);
                 session.invalidate();
                 model.addAttribute("account", account);
-                model.addAttribute("thongBao","Đổi mật khẩu thành công!");
+                model.addAttribute("thongBao", "Đổi mật khẩu thành công!");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -453,6 +456,19 @@ public class TrangChuController {
         return "contact";
     }
 
+    @PostMapping("/send-contact")
+    public String sendContact(Model model, @RequestParam(name = "name") String name,
+                              @RequestParam(name = "email") String email,
+                              @RequestParam(name = "message") String message) {
+        emailService.sendEmail("sydvph19885@fpt.edu.vn", "Đóng góp của",
+                "Họ tên:" + " " + name + " " +
+                        "Email:" + email + " " +
+                        "Nội dung:" + message
+        );
+        viewCart(model);
+        return "contact";
+    }
+
 
     @GetMapping("/top-10-long-stock")
     public String demo(Model model) {
@@ -470,7 +486,7 @@ public class TrangChuController {
             }
 
         }
-        model.addAttribute("thoiGianTonKho",thoiGianTonKho);
+        model.addAttribute("thoiGianTonKho", thoiGianTonKho);
         model.addAttribute("danhSach", top10SanPhamTonHangLauNhat);
         return "danh-sach-ton-kho";
     }
