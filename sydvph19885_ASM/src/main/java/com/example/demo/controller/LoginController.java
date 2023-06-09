@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -162,10 +163,35 @@ public class LoginController {
             account.setMatKhau(String.valueOf(passNew));
             accountService.saveOrUpdate(account);
             model.addAttribute("thongBao", "Mật khẩu mới đã được gửi đến mail!");
+            session.invalidate();
             return "/login";
         } else {
             model.addAttribute("thongBao", "Code sai!");
             return "otp-form";
         }
+    }
+
+    @GetMapping("/lay-lai-code")
+    public String forGotCode(Model model) {
+        Account account = (Account) session.getAttribute("forgotAccount");
+        if (account != null) {
+            int code = (int) Math.floor((Math.random() * 899999) + 100000);
+            emailService.sendEmail(account.getEmail(), "Code lấy lại mật khẩu", "Code: " + code);
+            account.setCode_mail(String.valueOf(code));
+            accountService.saveOrUpdate(account);
+            session.setAttribute("forgotAccount", account);
+            model.addAttribute("email", account.getEmail());
+        }
+        return "otp-form";
+    }
+
+    @Scheduled(fixedRate = 30000)
+    public void run() {
+        Account account = (Account) session.getAttribute("forgotAccount");
+        if (account != null) {
+            account.setCode_mail(null);
+            accountService.saveOrUpdate(account);
+        }
+
     }
 }

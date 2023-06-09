@@ -84,8 +84,7 @@
         <div class="card p-2 text-center"><h6>Please enter the one time password <br> to verify your account</h6>
             <c:choose>
                 <c:when test="${thongBao== null}">
-                    <div><span>Code đã gửi đến </span> <small>${email}</small></div>
-                </c:when>
+                    <div><span>Code đã gửi đến </span> <small>${email}</small> <p id="countdown">Có hiệu lực trong 30s</p></div>                </c:when>
                 <c:otherwise>
             <div><span>${thongBao} </span>
                 </c:otherwise>
@@ -101,11 +100,31 @@
                   class="m-2 text-center form-control rounded" name="6" type="text" id="sixth" maxlength="1"/></div>
           <div class="mt-4">
               <button type="submit" class="btn btn-danger px-4 validate">Xác nhận</button>
+              <br>
+              <a href="/lay-lai-code">Lấy lại code</a>
           </div>
       </form>
         </div>
     </div>
 </div>
+    <script>
+        var giay = 30; // Số giây cần đếm ngược
+
+        function demNguoc() {
+            var countdownElement = document.getElementById("countdown");
+
+            if (giay >= 0) {
+                countdownElement.innerHTML = "Có hiệu lực trong " + giay + "s";
+                giay--;
+                setTimeout(demNguoc, 1000); // Gọi lại hàm demNguoc() sau 1 giây
+            } else {
+                countdownElement.innerHTML = "Đã hết hiệu lực";
+            }
+        }
+
+        // Bắt đầu đếm ngược khi trang được tải
+        demNguoc();
+    </script>
 <script>
     document.addEventListener("DOMContentLoaded", function (event) {
 
