@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Account;
 import com.example.demo.service.IAccountService;
+import com.example.demo.utill.EmailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.ServletContext;
@@ -40,6 +41,9 @@ public class LoginController {
 
     @Autowired
     ServletContext servletContext;
+
+    @Autowired
+    EmailService emailService;
 
 
     @GetMapping("/login")
@@ -133,6 +137,7 @@ public class LoginController {
             return "/forgot-pass";
         } else {
             int code = (int) Math.floor((Math.random() * 899999) + 100000);
+            emailService.sendEmail(account.getEmail(), "Code lấy lại mật khẩu", "Code: " + code);
             account.setCode_mail(String.valueOf(code));
             accountService.saveOrUpdate(account);
             session.setAttribute("forgotAccount", account);
@@ -153,6 +158,7 @@ public class LoginController {
         Account account = (Account) session.getAttribute("forgotAccount");
         if (account.getCode_mail().equals(code)) {
             int passNew = (int) Math.floor((Math.random() * 899999) + 100000);
+            emailService.sendEmail(account.getEmail(), "Mật khẩu mới", "Mật khẩu mới của bạn là: " + passNew);
             account.setMatKhau(String.valueOf(passNew));
             accountService.saveOrUpdate(account);
             model.addAttribute("thongBao", "Mật khẩu mới đã được gửi đến mail!");
