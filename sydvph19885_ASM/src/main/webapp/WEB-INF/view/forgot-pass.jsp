@@ -15,11 +15,13 @@
         <p class="card-text py-2">
             Nhập email để nhận code!
         </p>
-        <div class="form-outline">
-            <input type="email" id="typeEmail" placeholder="Email" class="form-control my-3"/>
-            <label class="form-label" for="typeEmail">...........</label>
-        </div>
-        <a href="#" class="btn btn-primary w-100">Send</a>
+        <form method="post" action="/send">
+            <div class="form-outline">
+                <input type="email" name="email" required id="typeEmail" placeholder="Email" class="form-control my-3"/>
+            </div>
+            <p style="color: red">${tbMail}</p>
+            <button type="submit" class="btn btn-primary w-100">Send</button>
+        </form>
         <div class="d-flex justify-content-between mt-4">
             <a class="" href="/login">Login</a>
             <a class="" href="/login">Register</a>

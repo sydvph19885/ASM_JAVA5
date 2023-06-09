@@ -125,5 +125,41 @@ public class LoginController {
         return "forgot-pass";
     }
 
+    @PostMapping("/send")
+    public String optView(Model model, @RequestParam(name = "email") String email) {
+        Account account = accountService.findAccountByEmail(email);
+        if (account == null) {
+            model.addAttribute("tbMail", "Email không tồn tại");
+            return "/forgot-pass";
+        } else {
+            int code = (int) Math.floor((Math.random() * 899999) + 100000);
+            account.setCode_mail(String.valueOf(code));
+            accountService.saveOrUpdate(account);
+            session.setAttribute("forgotAccount", account);
+            model.addAttribute("email", email);
+            return "otp-form";
+        }
+    }
 
+    @PostMapping("/check-code")
+    public String check(Model model, @RequestParam(name = "1") String so1,
+                        @RequestParam(name = "2") String so2,
+                        @RequestParam(name = "3") String so3,
+                        @RequestParam(name = "4") String so4,
+                        @RequestParam(name = "5") String so5,
+                        @RequestParam(name = "6") String so6
+    ) {
+        String code = so1 + so2 + so3 + so4 + so5 + so6;
+        Account account = (Account) session.getAttribute("forgotAccount");
+        if (account.getCode_mail().equals(code)) {
+            int passNew = (int) Math.floor((Math.random() * 899999) + 100000);
+            account.setMatKhau(String.valueOf(passNew));
+            accountService.saveOrUpdate(account);
+            model.addAttribute("thongBao", "Mật khẩu mới đã được gửi đến mail!");
+            return "/login";
+        } else {
+            model.addAttribute("thongBao", "Code sai!");
+            return "otp-form";
+        }
+    }
 }

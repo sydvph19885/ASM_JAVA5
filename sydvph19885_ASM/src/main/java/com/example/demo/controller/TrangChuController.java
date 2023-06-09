@@ -137,11 +137,13 @@ public class TrangChuController {
                 accountService.saveOrUpdate(account);
                 session.invalidate();
                 model.addAttribute("account", account);
+                model.addAttribute("thongBao","Đổi mật khẩu thành công!");
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            return "redirect:/login";
+//            return "redirect:/login";
+            return "login";
         }
     }
 
