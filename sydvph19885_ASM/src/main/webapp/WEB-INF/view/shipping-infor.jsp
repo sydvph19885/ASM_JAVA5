@@ -141,15 +141,15 @@
 <br>
 <jsp:include page="layout/footer.jsp"></jsp:include>
 
-<script>
-    $(document).ready(function() {
-        $('#xacNhanBtn').click(function() {
-            setTimeout(function() {
-                $('form').submit();
-            }, 10000);
-        });
-    });
-</script>
+<%--<script>--%>
+<%--    $(document).ready(function() {--%>
+<%--        $('#xacNhanBtn').click(function() {--%>
+<%--            setTimeout(function() {--%>
+<%--                $('form').submit();--%>
+<%--            }, 10000);--%>
+<%--        });--%>
+<%--    });--%>
+<%--</script>--%>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
         integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
         crossorigin="anonymous"></script>

@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <style>
     .dropdown-toggle-no-caret::after {
         display: none !important;
@@ -43,6 +44,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                                <li><a class="dropdown-item" href="/don-mua">Đơn đã mua</a></li>
                                 <li><a class="dropdown-item" href="/change-password">Change Password</a></li>
                                 <li><a class="dropdown-item" href="/logout">Logout</a></li>
                             </ul>
@@ -63,6 +65,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                                <li><a class="dropdown-item" href="/don-mua">Đơn đã mua</a></li>
                                 <li><a class="dropdown-item" href="/change-password">Change Password</a></li>
                                 <li><a class="dropdown-item" href="/logout">Logout</a></li>
                             </ul>
@@ -92,40 +95,3 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
 
 
-<%--    <ul class="pagination">--%>
-<%--        <c:if test="${sanPham.number > 0}">--%>
-<%--            <li class="page-item">--%>
-<%--                <a class="page-link" href="?page=${sanPham.number - 1}">Trang trước</a>--%>
-<%--            </li>--%>
-<%--        </c:if>--%>
-
-<%--        <c:forEach var="page" begin="${sanPham.number - 2}" end="${sanPham.number + 2}"--%>
-<%--                   varStatus="loop">--%>
-<%--            <c:if test="${page >= 0 && page < sanPham.totalPages}">--%>
-<%--                <li class="page-item ${page == sanPham.number ? 'active' : ''}">--%>
-<%--                    <a class="page-link" href="?page=${page}">${page + 1}</a>--%>
-<%--                </li>--%>
-<%--            </c:if>--%>
-<%--        </c:forEach>--%>
-<%--        <c:if test="${sanPham.hasNext}">--%>
-<%--            <li class="page-item">--%>
-<%--                <a class="page-link" href="?page=${sanPham.nextPageable.pageNumber}">Trang sau</a>--%>
-<%--            </li>--%>
-<%--        </c:if>--%>
-<%--    </ul>--%>
-
-<%--//            if (!fileName.isEmpty()) {--%>
-<%--//                String fileAnh = fileName.getOriginalFilename();--%>
-<%--//                String url = servletContext.getRealPath("/WEB-INF/view/image/product/");--%>
-<%--//                File file = new File(url + fileAnh);--%>
-<%--//                fileName.transferTo(file);--%>
-<%--////                String fileAnh = fileName.getOriginalFilename();--%>
-<%--////                Resource resource = resourceLoader.getResource("classpath:/static/image/");--%>
-<%--////               String directory = resource.getFile().getAbsolutePath();--%>
-<%--////               File destinationFolder = new File(directory);--%>
-<%--////               if(!destinationFolder.exists()){--%>
-<%--////                   destinationFolder.mkdirs();--%>
-<%--////               }--%>
-<%--////               File destinationFile = new File(destinationFolder.getAbsolutePath());--%>
-<%--////               fileName.transferTo(destinationFile);--%>
-<%--//            }--%>

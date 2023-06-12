@@ -4,6 +4,7 @@ import com.example.demo.entity.*;
 import com.example.demo.service.IGioHangChiTietService;
 import com.example.demo.service.IGioHangService;
 import com.example.demo.service.IHoaDonChiTietService;
+import com.example.demo.service.IHoaDonService;
 import com.example.demo.viewModel.HoaDonChiTietViewModel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +32,9 @@ public class ThongKeController {
 
     @Autowired
     IGioHangChiTietService gioHangChiTietService;
+
+    @Autowired
+    IHoaDonService hoaDonService;
 
     public void viewCart(Model model) {
         Account account = (Account) session.getAttribute("account");
@@ -54,20 +59,17 @@ public class ThongKeController {
         model.addAttribute("thongKe", viewModels);
         return "thong-ke";
     }
-//    @GetMapping("/thong-ke-tong")
-//    public String viewTHongKeTong(Model model) {
-//        List<HoaDonChiTietViewModel> viewModels = hoaDonChiTietService.top10BanChay();
-////        ObjectMapper mapper = new ObjectMapper();
-////        String thongKeJson = "";
-////        try {
-////            thongKeJson = mapper.writeValueAsString(viewModels);
-////        } catch (JsonProcessingException e) {
-////            e.printStackTrace();
-////        }
-////        model.addAttribute("thongKeJson", thongKeJson);
-//        model.addAttribute("thongKe", viewModels);
-//        return "thong-ke-tong";
-//    }
 
+    @GetMapping("/don-mua")
+    public String viewDonMua(Model model) {
+        Account account = (Account) session.getAttribute("account");
+        List<HoaDonChiTietViewModel> listDonMuaById = new ArrayList<>();
+        for (HoaDonChiTietViewModel hoaDonChiTietViewModel : hoaDonChiTietService.findHoaDonChiTietByHoaDon(account)) {
+            listDonMuaById.add(hoaDonChiTietViewModel);
+        }
+
+        model.addAttribute("hoaDonDaMua", listDonMuaById);
+        return "don-mua";
+    }
 
 }
