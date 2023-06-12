@@ -89,26 +89,22 @@
                             </button>
                         </div>
                         <!-- Modal -->
-                        <div class="modal fade" id="datHang" tabindex="-1" aria-labelledby="exampleModalLabel"
-                             aria-hidden="true">
+                        <div class="modal fade" id="datHang" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h1 class="modal-title fs-5" id="exampleModalLabel">Xác nhận</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         Bạn có chắn chắn đặt hàng?
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy
-                                        </button>
-<%--                                        <button type="submit" class="btn btn-primary">Xác nhận</button>--%>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                                         <div class="xacNhan">
                                             <div class="text-center">
                                                 <!-- Button HTML (to Trigger Modal) -->
-                                                <button type="submit" href="#myModal" class="btn btn-secondary" data-toggle="modal">Xác nhận</button>
+                                                <button id="xacNhanBtn" type="submit" href="#myModal" class="btn btn-secondary" data-toggle="modal">Xác nhận</button>
                                             </div>
                                             <!-- Modal DAT HANG -->
                                             <div id="myModal" class="modal fade">
@@ -129,9 +125,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-<%--                                            --%>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -148,17 +142,13 @@
 <jsp:include page="layout/footer.jsp"></jsp:include>
 
 <script>
-    $('.xacNhan button').click(function() {
-        $('#myModal').modal('show');
-
-        // Ngăn chặn action mặc định của form
-        return false;
+    $(document).ready(function() {
+        $('#xacNhanBtn').click(function() {
+            setTimeout(function() {
+                $('form').submit();
+            }, 10000);
+        });
     });
-
-    // Đợi 5 giây trước khi thực hiện action trong form
-    setTimeout(function() {
-        $('form').submit();
-    }, 10000);
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
         integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
